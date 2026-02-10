@@ -1,26 +1,18 @@
 import { useQuery } from '@tanstack/react-query'
-import { publicClient } from '../lib/contracts'
-import { useAgentCount } from './useAgents'
-import { useCurrentEpoch } from './useRewards'
+import { api } from '../lib/api'
 
 export const useNetworkStats = () => {
-  const { data: agentCount } = useAgentCount()
-  const { data: currentEpoch } = useCurrentEpoch()
-
-  const blockNumber = useQuery({
-    queryKey: ['blockNumber'],
-    queryFn: async () => {
-      const block = await publicClient.getBlockNumber()
-      return Number(block)
-    },
+  const { data, isLoading } = useQuery({
+    queryKey: ['networkStats'],
+    queryFn: () => api.getStats(),
     refetchInterval: 5000,
   })
 
   return {
-    activeAgents: agentCount?.active ?? 0,
-    totalAgents: agentCount?.total ?? 0,
-    currentEpoch: currentEpoch ?? 0,
-    blockNumber: blockNumber.data ?? 0,
-    isLoading: blockNumber.isLoading,
+    activeAgents: data?.activeAgents ?? 0,
+    totalAgents: data?.totalAgents ?? 0,
+    currentEpoch: data?.currentEpoch ?? 0,
+    blockNumber: data?.blockNumber ?? 0,
+    isLoading,
   }
 }

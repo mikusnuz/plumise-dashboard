@@ -12,7 +12,7 @@ import { formatPLM } from '../lib/formatters'
 interface RewardChartProps {
   data: {
     epoch: number
-    reward: bigint
+    reward: string | bigint
   }[]
 }
 

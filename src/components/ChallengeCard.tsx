@@ -9,7 +9,7 @@ interface ChallengeCardProps {
 
 export const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
   const now = Math.floor(Date.now() / 1000)
-  const expiresAt = Number(challenge.expiresAt)
+  const expiresAt = Math.floor(new Date(challenge.expiresAt).getTime() / 1000)
   const timeRemaining = expiresAt - now
   const isExpired = timeRemaining <= 0
 
@@ -25,7 +25,7 @@ export const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
             Current Challenge
           </h3>
           <p className="text-sm text-slate-400">
-            Challenge #{challenge.id.toString()}
+            Challenge #{challenge.id}
           </p>
         </div>
         <div className="p-3 rounded-lg bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-500/30">
@@ -38,13 +38,13 @@ export const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
           <div>
             <p className="text-xs text-slate-500 mb-1">Difficulty</p>
             <p className="text-2xl font-bold text-white">
-              {challenge.difficulty.toString()}
+              {challenge.difficulty}
             </p>
           </div>
           <div className="text-right">
             <p className="text-xs text-slate-500 mb-1">Reward Bonus</p>
             <p className="text-lg font-semibold text-purple-400">
-              +{challenge.rewardBonus.toString()}%
+              +{challenge.rewardBonus}%
             </p>
           </div>
         </div>

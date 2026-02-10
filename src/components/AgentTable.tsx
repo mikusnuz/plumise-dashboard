@@ -87,10 +87,10 @@ export const AgentTable = ({ agents, loading }: AgentTableProps) => {
                   </span>
                 </td>
                 <td className="px-6 py-4 text-sm text-slate-300">
-                  {formatTime(Number(agent.lastHeartbeat))}
+                  {formatTime(new Date(agent.lastHeartbeat).getTime() / 1000)}
                 </td>
                 <td className="px-6 py-4 text-sm text-slate-300">
-                  {formatTime(Number(agent.registeredAt))}
+                  {formatTime(new Date(agent.registeredAt).getTime() / 1000)}
                 </td>
                 <td className="px-6 py-4">
                   <ChevronDown
@@ -139,7 +139,7 @@ export const AgentTable = ({ agents, loading }: AgentTableProps) => {
                     <div>
                       <p className="text-slate-500 mb-1">Stake</p>
                       <p className="text-slate-300">
-                        {agent.stake.toString()} PLM
+                        {agent.stake} PLM
                       </p>
                     </div>
                   </div>

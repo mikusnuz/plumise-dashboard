@@ -2,21 +2,22 @@ import { useState } from 'react'
 import { Users, Activity } from 'lucide-react'
 import StatCard from '../components/StatCard'
 import AgentTable from '../components/AgentTable'
-import { useAgents, useActiveAgents, useAgentCount } from '../hooks/useAgents'
+import { useAgents, useActiveAgents } from '../hooks/useAgents'
+import { useNetworkStats } from '../hooks/useNetworkStats'
 import { formatNumber } from '../lib/formatters'
 
 export const Agents = () => {
   const [showActiveOnly, setShowActiveOnly] = useState(false)
   const { data: allAgents, isLoading: allLoading } = useAgents()
   const { data: activeAgents, isLoading: activeLoading } = useActiveAgents()
-  const { data: agentCount } = useAgentCount()
+  const { totalAgents, activeAgents: activeCount } = useNetworkStats()
 
   const agents = showActiveOnly ? activeAgents : allAgents
   const isLoading = showActiveOnly ? activeLoading : allLoading
 
   const activePercentage =
-    agentCount && agentCount.total > 0
-      ? ((agentCount.active / agentCount.total) * 100).toFixed(1)
+    totalAgents > 0
+      ? ((activeCount / totalAgents) * 100).toFixed(1)
       : '0'
 
   return (
@@ -31,18 +32,18 @@ export const Agents = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
           title="Total Agents"
-          value={formatNumber(agentCount?.total ?? 0)}
+          value={formatNumber(totalAgents)}
           icon={Users}
         />
         <StatCard
           title="Active Agents"
-          value={formatNumber(agentCount?.active ?? 0)}
+          value={formatNumber(activeCount)}
           icon={Activity}
           change={`${activePercentage}% active`}
         />
         <StatCard
           title="Inactive Agents"
-          value={formatNumber((agentCount?.total ?? 0) - (agentCount?.active ?? 0))}
+          value={formatNumber(totalAgents - activeCount)}
           icon={Users}
         />
       </div>

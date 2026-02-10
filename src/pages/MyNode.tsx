@@ -99,17 +99,17 @@ export const MyNode = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
           title="Pending Rewards"
-          value={`${formatPLM(rewardData?.pending ?? 0n)} PLM`}
+          value={`${formatPLM(rewardData?.pending ?? '0')} PLM`}
           icon={Award}
         />
         <StatCard
           title="Tasks Completed"
-          value={formatNumber(Number(rewardData?.contribution.taskCount ?? 0n))}
+          value={formatNumber(rewardData?.contribution.taskCount ?? 0)}
           icon={Activity}
         />
         <StatCard
           title="Response Score"
-          value={formatNumber(Number(rewardData?.contribution.responseScore ?? 0n))}
+          value={formatNumber(rewardData?.contribution.responseScore ?? 0)}
           icon={TrendingUp}
         />
       </div>
@@ -123,7 +123,7 @@ export const MyNode = () => {
             <p className="text-sm text-slate-400 mb-2">Uptime</p>
             <p className="text-2xl font-bold text-white">
               {formatNumber(
-                Number(rewardData?.contribution.uptimeSeconds ?? 0n) / 3600,
+                (rewardData?.contribution.uptimeSeconds ?? 0) / 3600,
                 2
               )}{' '}
               hours
@@ -133,9 +133,7 @@ export const MyNode = () => {
             <p className="text-sm text-slate-400 mb-2">Last Updated</p>
             <p className="text-2xl font-bold text-white">
               {rewardData?.contribution.lastUpdated
-                ? new Date(
-                    Number(rewardData.contribution.lastUpdated) * 1000
-                  ).toLocaleString()
+                ? new Date(rewardData.contribution.lastUpdated).toLocaleString()
                 : 'Never'}
             </p>
           </div>
@@ -159,16 +157,16 @@ export const MyNode = () => {
           <div className="text-right">
             <p className="text-sm text-slate-400 mb-1">Available to Claim</p>
             <p className="text-3xl font-bold text-cyan-400">
-              {formatPLM(rewardData?.pending ?? 0n)} PLM
+              {formatPLM(rewardData?.pending ?? '0')} PLM
             </p>
           </div>
         </div>
 
         <button
           className="btn-primary w-full py-3"
-          disabled={(rewardData?.pending ?? 0n) === 0n}
+          disabled={BigInt(rewardData?.pending ?? '0') === 0n}
         >
-          {(rewardData?.pending ?? 0n) === 0n
+          {BigInt(rewardData?.pending ?? '0') === 0n
             ? 'No Rewards Available'
             : 'Claim Rewards'}
         </button>

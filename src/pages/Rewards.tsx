@@ -1,29 +1,22 @@
 import { Award, TrendingUp, Users } from 'lucide-react'
 import StatCard from '../components/StatCard'
 import RewardChart from '../components/RewardChart'
-import { useCurrentEpoch, useEpochRewards, useRewardFormula } from '../hooks/useRewards'
+import { useEpochs, useRewardFormula } from '../hooks/useRewards'
 import { formatNumber, formatPLM } from '../lib/formatters'
 
 export const Rewards = () => {
-  const { data: currentEpochData } = useCurrentEpoch()
+  const { data: epochsData } = useEpochs()
   const { data: formula } = useRewardFormula()
 
-  // Fetch last 50 epochs for detailed history
-  const epochRewardsQueries = Array.from({ length: 50 }, (_, i) => {
-    const epoch = (currentEpochData ?? 0) - i
-    return useEpochRewards(epoch)
-  })
-
-  const rewardChartData = epochRewardsQueries
-    .filter((q) => q.data)
-    .map((q) => ({
-      epoch: q.data!.epoch,
-      reward: q.data!.reward,
-    }))
-    .reverse()
+  const rewardChartData = epochsData
+    ? epochsData.map((epoch) => ({
+        epoch: epoch.number,
+        reward: epoch.reward,
+      })).reverse()
+    : []
 
   const totalDistributed = rewardChartData.reduce(
-    (sum, item) => sum + item.reward,
+    (sum, item) => sum + BigInt(item.reward),
     0n
   )
 
@@ -120,38 +113,38 @@ export const Rewards = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-700/50">
-              {epochRewardsQueries.slice(0, 10).map((query) =>
-                query.data ? (
-                  <tr key={query.data.epoch} className="table-row">
+              {epochsData?.slice(0, 10).map((epoch) => {
+                const rewardBigInt = BigInt(epoch.reward)
+                const avgPerAgent = epoch.agentCount > 0
+                  ? rewardBigInt / BigInt(epoch.agentCount)
+                  : 0n
+
+                return (
+                  <tr key={epoch.number} className="table-row">
                     <td className="px-6 py-4 text-white font-medium">
-                      #{formatNumber(query.data.epoch)}
+                      #{formatNumber(epoch.number)}
                     </td>
                     <td className="px-6 py-4 text-cyan-400 font-mono">
-                      {formatPLM(query.data.reward)} PLM
+                      {formatPLM(epoch.reward)} PLM
                     </td>
                     <td className="px-6 py-4 text-slate-300">
-                      {formatNumber(query.data.agents.length)}
+                      {formatNumber(epoch.agentCount)}
                     </td>
                     <td className="px-6 py-4 text-slate-300 font-mono">
-                      {query.data.agents.length > 0
-                        ? formatPLM(
-                            query.data.reward / BigInt(query.data.agents.length)
-                          )
-                        : '0'}{' '}
-                      PLM
+                      {formatPLM(avgPerAgent)} PLM
                     </td>
                     <td className="px-6 py-4">
                       <span
                         className={
-                          query.data.distributed ? 'badge-success' : 'badge-warning'
+                          epoch.distributed ? 'badge-success' : 'badge-warning'
                         }
                       >
-                        {query.data.distributed ? 'Distributed' : 'Pending'}
+                        {epoch.distributed ? 'Distributed' : 'Pending'}
                       </span>
                     </td>
                   </tr>
-                ) : null
-              )}
+                )
+              })}
             </tbody>
           </table>
         </div>

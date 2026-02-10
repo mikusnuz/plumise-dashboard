@@ -3,19 +3,17 @@ import StatCard from '../components/StatCard'
 import ChallengeCard from '../components/ChallengeCard'
 import {
   useCurrentChallenge,
-  useChallengeHistory,
-  useChallengeDifficulty,
-  useTotalChallenges,
+  useChallenges,
 } from '../hooks/useChallenges'
 import { formatAddress, formatDuration, formatNumber } from '../lib/formatters'
 
 export const Challenges = () => {
   const { data: currentChallenge } = useCurrentChallenge()
-  const { data: history } = useChallengeHistory(0, 20)
-  const { data: difficulty } = useChallengeDifficulty()
-  const { data: totalChallenges } = useTotalChallenges()
+  const { data: history } = useChallenges()
 
   const solvedCount = history?.filter((c) => c.solved).length ?? 0
+  const difficulty = currentChallenge?.difficulty ?? 0
+  const totalChallenges = history?.length ?? 0
 
   return (
     <div className="space-y-6">
@@ -29,12 +27,12 @@ export const Challenges = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
           title="Total Challenges"
-          value={formatNumber(totalChallenges ?? 0)}
+          value={formatNumber(totalChallenges)}
           icon={Zap}
         />
         <StatCard
           title="Current Difficulty"
-          value={formatNumber(difficulty ?? 0)}
+          value={formatNumber(difficulty)}
           icon={TrendingUp}
         />
         <StatCard
@@ -60,7 +58,7 @@ export const Challenges = () => {
           <div className="space-y-3">
             {history?.slice(0, 5).map((challenge, index) => (
               <div
-                key={challenge.id.toString()}
+                key={challenge.id}
                 className="flex items-center justify-between p-3 rounded-lg bg-slate-800/50"
               >
                 <div className="flex items-center gap-3">
@@ -69,7 +67,7 @@ export const Challenges = () => {
                   </div>
                   <div>
                     <p className="text-sm text-slate-300">
-                      Challenge #{challenge.id.toString()}
+                      Challenge #{challenge.id}
                     </p>
                     <p className="text-xs text-slate-500">
                       {challenge.solved ? 'Solved' : 'Unsolved'}
@@ -78,7 +76,7 @@ export const Challenges = () => {
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-bold text-white">
-                    {challenge.difficulty.toString()}
+                    {challenge.difficulty}
                   </p>
                   <p className="text-xs text-slate-500">Difficulty</p>
                 </div>
@@ -118,16 +116,17 @@ export const Challenges = () => {
             </thead>
             <tbody className="divide-y divide-slate-700/50">
               {history?.map((challenge) => {
-                const solveTime =
-                  Number(challenge.expiresAt) - Number(challenge.createdAt)
+                const createdAt = new Date(challenge.createdAt).getTime() / 1000
+                const expiresAt = new Date(challenge.expiresAt).getTime() / 1000
+                const solveTime = expiresAt - createdAt
 
                 return (
-                  <tr key={challenge.id.toString()} className="table-row">
+                  <tr key={challenge.id} className="table-row">
                     <td className="px-6 py-4 text-white font-medium">
-                      #{challenge.id.toString()}
+                      #{challenge.id}
                     </td>
                     <td className="px-6 py-4 text-cyan-400 font-mono">
-                      {challenge.difficulty.toString()}
+                      {challenge.difficulty}
                     </td>
                     <td className="px-6 py-4">
                       <span
@@ -151,7 +150,7 @@ export const Challenges = () => {
                       {challenge.solved ? formatDuration(solveTime) : '-'}
                     </td>
                     <td className="px-6 py-4 text-sm text-purple-400 font-medium">
-                      +{challenge.rewardBonus.toString()}%
+                      +{challenge.rewardBonus}%
                     </td>
                   </tr>
                 )

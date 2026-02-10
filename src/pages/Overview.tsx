@@ -3,7 +3,7 @@ import StatCard from '../components/StatCard'
 import RewardChart from '../components/RewardChart'
 import ChallengeCard from '../components/ChallengeCard'
 import { useNetworkStats } from '../hooks/useNetworkStats'
-import { useCurrentEpoch, useEpochRewards } from '../hooks/useRewards'
+import { useEpochs } from '../hooks/useRewards'
 import { useCurrentChallenge } from '../hooks/useChallenges'
 import { formatNumber } from '../lib/formatters'
 
@@ -11,21 +11,14 @@ export const Overview = () => {
   const { activeAgents, totalAgents, currentEpoch, blockNumber, isLoading } =
     useNetworkStats()
   const { data: currentChallengeData } = useCurrentChallenge()
-  const { data: currentEpochData } = useCurrentEpoch()
+  const { data: epochsData } = useEpochs()
 
-  // Fetch last 24 epochs
-  const epochRewardsQueries = Array.from({ length: 24 }, (_, i) => {
-    const epoch = (currentEpochData ?? 0) - i
-    return useEpochRewards(epoch)
-  })
-
-  const rewardChartData = epochRewardsQueries
-    .filter((q) => q.data)
-    .map((q) => ({
-      epoch: q.data!.epoch,
-      reward: q.data!.reward,
-    }))
-    .reverse()
+  const rewardChartData = epochsData
+    ? epochsData.slice(0, 24).map((epoch) => ({
+        epoch: epoch.number,
+        reward: epoch.reward,
+      })).reverse()
+    : []
 
   return (
     <div className="space-y-6">

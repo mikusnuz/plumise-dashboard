@@ -4,8 +4,9 @@ export const formatAddress = (address: string, chars = 4): string => {
   return `${address.substring(0, chars + 2)}...${address.substring(address.length - chars)}`
 }
 
-export const formatPLM = (value: bigint, decimals = 4): string => {
-  const formatted = formatUnits(value, 18)
+export const formatPLM = (value: bigint | string, decimals = 4): string => {
+  const bigintValue = typeof value === 'string' ? BigInt(value) : value
+  const formatted = formatUnits(bigintValue, 18)
   const num = parseFloat(formatted)
 
   if (num === 0) return '0'
