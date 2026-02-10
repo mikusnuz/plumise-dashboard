@@ -16,7 +16,7 @@ export const Sidebar = () => {
   ]
 
   return (
-    <aside className="w-64 glass-card m-4 p-6 flex flex-col">
+    <aside className="w-64 shrink-0 glass-card m-4 p-6 flex flex-col overflow-y-auto">
       <div className="mb-8">
         <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
           Plumise AI
