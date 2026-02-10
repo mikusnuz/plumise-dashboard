@@ -27,8 +27,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# ABI temp files
-agent-registry-abi.json
-reward-pool-abi.json
-challenge-manager-abi.json
