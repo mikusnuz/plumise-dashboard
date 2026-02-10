@@ -5,7 +5,7 @@ services:
     build: .
     container_name: plumise-dashboard
     ports:
-      - "15420:80"
+      - "15480:80"
     restart: unless-stopped
     environment:
       - NODE_ENV=production
