@@ -6,8 +6,10 @@ import { useNetworkStats } from '../hooks/useNetworkStats'
 import { useEpochs } from '../hooks/useRewards'
 import { useCurrentChallenge } from '../hooks/useChallenges'
 import { formatNumber } from '../lib/formatters'
+import { useTranslation } from '../i18n'
 
 export const Overview = () => {
+  const { t } = useTranslation()
   const { activeAgents, totalAgents, currentEpoch, blockNumber, isLoading } =
     useNetworkStats()
   const { data: currentChallengeData } = useCurrentChallenge()
@@ -23,34 +25,34 @@ export const Overview = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Network Overview</h1>
-        <p className="text-slate-400">
-          Real-time statistics for the Plumise AI network
+        <h1 className="text-3xl font-bold text-heading mb-2">{t('overview.title')}</h1>
+        <p className="text-label">
+          {t('overview.subtitle')}
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
-          title="Active Agents"
+          title={t('overview.activeAgents')}
           value={formatNumber(activeAgents)}
           icon={Users}
           loading={isLoading}
-          change={`${totalAgents} total`}
+          change={t('overview.totalSuffix', { count: totalAgents })}
         />
         <StatCard
-          title="Current Epoch"
+          title={t('overview.currentEpoch')}
           value={formatNumber(currentEpoch)}
           icon={TrendingUp}
           loading={isLoading}
         />
         <StatCard
-          title="Block Height"
+          title={t('overview.blockHeight')}
           value={formatNumber(blockNumber)}
           icon={Zap}
           loading={isLoading}
         />
         <StatCard
-          title="Total Agents"
+          title={t('overview.totalAgents')}
           value={formatNumber(totalAgents)}
           icon={Award}
           loading={isLoading}
@@ -63,7 +65,7 @@ export const Overview = () => {
             <RewardChart data={rewardChartData} />
           ) : (
             <div className="glass-card p-6">
-              <p className="text-slate-400 text-center">Loading reward data...</p>
+              <p className="text-label text-center">{t('overview.loadingReward')}</p>
             </div>
           )}
         </div>
@@ -73,7 +75,7 @@ export const Overview = () => {
             <ChallengeCard challenge={currentChallengeData} />
           ) : (
             <div className="glass-card p-6">
-              <p className="text-slate-400 text-center">Loading challenge...</p>
+              <p className="text-label text-center">{t('overview.loadingChallenge')}</p>
             </div>
           )}
         </div>

@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { formatPLM } from '../lib/formatters'
+import { useTranslation } from '../i18n'
 
 interface RewardChartProps {
   data: {
@@ -17,6 +18,7 @@ interface RewardChartProps {
 }
 
 export const RewardChart = ({ data }: RewardChartProps) => {
+  const { t } = useTranslation()
   const chartData = data.map((item) => ({
     epoch: item.epoch,
     reward: parseFloat(formatPLM(item.reward, 2)),
@@ -24,8 +26,8 @@ export const RewardChart = ({ data }: RewardChartProps) => {
 
   return (
     <div className="glass-card p-6">
-      <h3 className="text-lg font-semibold mb-6 text-white">
-        Reward Distribution History
+      <h3 className="text-lg font-semibold mb-6 text-heading">
+        {t('rewards.chartTitle')}
       </h3>
 
       <ResponsiveContainer width="100%" height={300}>
@@ -36,26 +38,26 @@ export const RewardChart = ({ data }: RewardChartProps) => {
               <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.1} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
           <XAxis
             dataKey="epoch"
-            stroke="#94a3b8"
-            tick={{ fill: '#94a3b8', fontSize: 12 }}
+            stroke="var(--chart-text)"
+            tick={{ fill: 'var(--chart-text)', fontSize: 12 }}
           />
           <YAxis
-            stroke="#94a3b8"
-            tick={{ fill: '#94a3b8', fontSize: 12 }}
+            stroke="var(--chart-text)"
+            tick={{ fill: 'var(--chart-text)', fontSize: 12 }}
             tickFormatter={(value) => `${value} PLM`}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: 'rgba(15, 23, 42, 0.9)',
-              border: '1px solid rgba(148, 163, 184, 0.2)',
+              backgroundColor: 'var(--chart-tooltip-bg)',
+              border: '1px solid var(--chart-tooltip-border)',
               borderRadius: '8px',
-              color: '#e2e8f0',
+              color: 'var(--text-primary)',
             }}
-            formatter={(value) => (value ? [`${value} PLM`, 'Reward'] : ['0 PLM', 'Reward'])}
-            labelFormatter={(label) => `Epoch ${label}`}
+            formatter={(value) => (value ? [`${value} PLM`, t('rewards.reward')] : ['0 PLM', t('rewards.reward')])}
+            labelFormatter={(label) => `${t('rewards.epoch')} ${label}`}
           />
           <Area
             type="monotone"

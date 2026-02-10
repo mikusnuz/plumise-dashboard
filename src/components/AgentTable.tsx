@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { ChevronDown } from 'lucide-react'
 import { formatAddress, formatTime } from '../lib/formatters'
+import { useTranslation } from '../i18n'
 import type { Agent } from '../hooks/useAgents'
 
 interface AgentTableProps {
@@ -9,18 +10,19 @@ interface AgentTableProps {
   loading?: boolean
 }
 
-const statusLabels = ['Inactive', 'Active', 'Slashed']
-const statusColors = ['badge-warning', 'badge-success', 'badge-danger']
-
 export const AgentTable = ({ agents, loading }: AgentTableProps) => {
+  const { t } = useTranslation()
   const [expandedAgent, setExpandedAgent] = useState<string | null>(null)
+
+  const statusLabels = [t('agents.statusInactive'), t('agents.statusActive'), t('agents.statusSlashed')]
+  const statusColors = ['badge-warning', 'badge-success', 'badge-danger']
 
   if (loading) {
     return (
       <div className="glass-card p-6">
         <div className="space-y-4">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-16 bg-slate-700/30 rounded animate-pulse" />
+            <div key={i} className="h-16 bg-elevated rounded animate-pulse" />
           ))}
         </div>
       </div>
@@ -30,7 +32,7 @@ export const AgentTable = ({ agents, loading }: AgentTableProps) => {
   if (agents.length === 0) {
     return (
       <div className="glass-card p-12 text-center">
-        <p className="text-slate-400">No agents found</p>
+        <p className="text-label">{t('agents.noAgents')}</p>
       </div>
     )
   }
@@ -39,26 +41,26 @@ export const AgentTable = ({ agents, loading }: AgentTableProps) => {
     <div className="glass-card overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-slate-800/50 border-b border-slate-700">
+          <thead className="bg-elevated border-b border-theme">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
-                Agent
+              <th className="px-6 py-4 text-left text-xs font-medium text-label uppercase tracking-wider">
+                {t('agents.agent')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
-                Status
+              <th className="px-6 py-4 text-left text-xs font-medium text-label uppercase tracking-wider">
+                {t('agents.status')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
-                Last Heartbeat
+              <th className="px-6 py-4 text-left text-xs font-medium text-label uppercase tracking-wider">
+                {t('agents.lastHeartbeat')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
-                Registered
+              <th className="px-6 py-4 text-left text-xs font-medium text-label uppercase tracking-wider">
+                {t('agents.registered')}
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
-                Details
+              <th className="px-6 py-4 text-left text-xs font-medium text-label uppercase tracking-wider">
+                {t('agents.details')}
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-700/50">
+          <tbody className="divide-y divide-theme">
             {agents.map((agent) => (
               <motion.tr
                 key={agent.wallet}
@@ -73,11 +75,11 @@ export const AgentTable = ({ agents, loading }: AgentTableProps) => {
               >
                 <td className="px-6 py-4">
                   <div>
-                    <p className="font-mono text-sm text-white">
+                    <p className="font-mono text-sm text-heading">
                       {formatAddress(agent.wallet)}
                     </p>
-                    <p className="text-xs text-slate-500 mt-1">
-                      Node: {formatAddress(agent.nodeId)}
+                    <p className="text-xs text-hint mt-1">
+                      {t('agents.node')}: {formatAddress(agent.nodeId)}
                     </p>
                   </div>
                 </td>
@@ -86,16 +88,16 @@ export const AgentTable = ({ agents, loading }: AgentTableProps) => {
                     {statusLabels[agent.status]}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-sm text-slate-300">
+                <td className="px-6 py-4 text-sm text-body">
                   {formatTime(new Date(agent.lastHeartbeat).getTime() / 1000)}
                 </td>
-                <td className="px-6 py-4 text-sm text-slate-300">
+                <td className="px-6 py-4 text-sm text-body">
                   {formatTime(new Date(agent.registeredAt).getTime() / 1000)}
                 </td>
                 <td className="px-6 py-4">
                   <ChevronDown
                     size={20}
-                    className={`text-slate-400 transition-transform ${
+                    className={`text-label transition-transform ${
                       expandedAgent === agent.wallet ? 'rotate-180' : ''
                     }`}
                   />
@@ -112,33 +114,33 @@ export const AgentTable = ({ agents, loading }: AgentTableProps) => {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="border-t border-slate-700 overflow-hidden"
+            className="border-t border-theme overflow-hidden"
           >
             {agents
               .filter((a) => a.wallet === expandedAgent)
               .map((agent) => (
-                <div key={agent.wallet} className="p-6 bg-slate-800/30">
-                  <h4 className="text-sm font-medium text-slate-300 mb-3">
-                    Agent Details
+                <div key={agent.wallet} className="p-6 bg-elevated">
+                  <h4 className="text-sm font-medium text-body mb-3">
+                    {t('agents.agentDetails')}
                   </h4>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <p className="text-slate-500 mb-1">Wallet Address</p>
-                      <p className="font-mono text-slate-300">{agent.wallet}</p>
+                      <p className="text-hint mb-1">{t('agents.walletAddress')}</p>
+                      <p className="font-mono text-body">{agent.wallet}</p>
                     </div>
                     <div>
-                      <p className="text-slate-500 mb-1">Node ID</p>
-                      <p className="font-mono text-slate-300">{agent.nodeId}</p>
+                      <p className="text-hint mb-1">{t('agents.nodeId')}</p>
+                      <p className="font-mono text-body">{agent.nodeId}</p>
                     </div>
                     <div>
-                      <p className="text-slate-500 mb-1">Metadata</p>
-                      <p className="text-slate-300">
-                        {agent.metadata || 'No metadata'}
+                      <p className="text-hint mb-1">{t('agents.metadata')}</p>
+                      <p className="text-body">
+                        {agent.metadata || t('agents.noMetadata')}
                       </p>
                     </div>
                     <div>
-                      <p className="text-slate-500 mb-1">Stake</p>
-                      <p className="text-slate-300">
+                      <p className="text-hint mb-1">{t('agents.stake')}</p>
+                      <p className="text-body">
                         {agent.stake} PLM
                       </p>
                     </div>

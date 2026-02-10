@@ -35,7 +35,7 @@ export const StatCard = ({
                 ? 'text-green-400'
                 : trend === 'down'
                 ? 'text-red-400'
-                : 'text-slate-400'
+                : 'text-label'
             }`}
           >
             {change}
@@ -43,12 +43,12 @@ export const StatCard = ({
         )}
       </div>
 
-      <h3 className="text-sm text-slate-400 mb-2">{title}</h3>
+      <h3 className="text-sm text-label mb-2">{title}</h3>
 
       {loading ? (
-        <div className="h-8 w-32 bg-slate-700/50 rounded animate-pulse" />
+        <div className="h-8 w-32 bg-elevated rounded animate-pulse" />
       ) : (
-        <p className="text-3xl font-bold text-white">{value}</p>
+        <p className="text-3xl font-bold text-heading">{value}</p>
       )}
     </motion.div>
   )

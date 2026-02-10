@@ -4,14 +4,16 @@ import { motion } from 'motion/react'
 import StatCard from '../components/StatCard'
 import { useRewards } from '../hooks/useRewards'
 import { formatAddress, formatPLM, formatNumber } from '../lib/formatters'
+import { useTranslation } from '../i18n'
 
 export const MyNode = () => {
+  const { t } = useTranslation()
   const [walletAddress, setWalletAddress] = useState<`0x${string}` | undefined>()
   const { data: rewardData } = useRewards(walletAddress)
 
   const handleConnect = async () => {
     if (typeof window.ethereum === 'undefined') {
-      alert('Please install MetaMask to connect your wallet')
+      alert(t('myNode.installMetamask'))
       return
     }
 
@@ -21,14 +23,12 @@ export const MyNode = () => {
       })) as string[]
 
       const addr = accounts[0]
-      // Validate address format before using it
       if (addr && /^0x[0-9a-fA-F]{40}$/.test(addr)) {
         setWalletAddress(addr as `0x${string}`)
       } else {
-        alert('Invalid wallet address returned')
+        alert(t('myNode.invalidAddress'))
       }
     } catch (error) {
-      // Log connection errors (non-sensitive info only)
       console.error('Failed to connect wallet:', error instanceof Error ? error.message : 'Unknown error')
     }
   }
@@ -41,9 +41,9 @@ export const MyNode = () => {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">My Node</h1>
-          <p className="text-slate-400">
-            Connect your wallet to view your node status and rewards
+          <h1 className="text-3xl font-bold text-heading mb-2">{t('myNode.title')}</h1>
+          <p className="text-label">
+            {t('myNode.connectSubtitle')}
           </p>
         </div>
 
@@ -54,17 +54,16 @@ export const MyNode = () => {
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold text-white mb-2">
-                Connect Your Wallet
+              <h2 className="text-2xl font-bold text-heading mb-2">
+                {t('myNode.connectWallet')}
               </h2>
-              <p className="text-slate-400">
-                Connect your wallet to view your agent status, pending rewards, and
-                claim your earnings
+              <p className="text-label">
+                {t('myNode.connectDesc')}
               </p>
             </div>
 
             <button onClick={handleConnect} className="btn-primary w-full py-3">
-              Connect Wallet
+              {t('myNode.connectBtn')}
             </button>
           </div>
         </div>
@@ -76,11 +75,11 @@ export const MyNode = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">My Node</h1>
-          <p className="text-slate-400">Monitor your agent and claim rewards</p>
+          <h1 className="text-3xl font-bold text-heading mb-2">{t('myNode.title')}</h1>
+          <p className="text-label">{t('myNode.connectedSubtitle')}</p>
         </div>
         <button onClick={handleDisconnect} className="btn-secondary">
-          Disconnect
+          {t('myNode.disconnect')}
         </button>
       </div>
 
@@ -90,51 +89,51 @@ export const MyNode = () => {
             <Wallet size={32} className="text-cyan-400" />
           </div>
           <div>
-            <p className="text-sm text-slate-400 mb-1">Connected Wallet</p>
-            <p className="text-xl font-mono text-white">{formatAddress(walletAddress, 8)}</p>
+            <p className="text-sm text-label mb-1">{t('myNode.connectedWallet')}</p>
+            <p className="text-xl font-mono text-heading">{formatAddress(walletAddress, 8)}</p>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
-          title="Pending Rewards"
+          title={t('myNode.pendingRewards')}
           value={`${formatPLM(rewardData?.pending ?? '0')} PLM`}
           icon={Award}
         />
         <StatCard
-          title="Tasks Completed"
+          title={t('myNode.tasksCompleted')}
           value={formatNumber(rewardData?.contribution.taskCount ?? 0)}
           icon={Activity}
         />
         <StatCard
-          title="Response Score"
+          title={t('myNode.responseScore')}
           value={formatNumber(rewardData?.contribution.responseScore ?? 0)}
           icon={TrendingUp}
         />
       </div>
 
       <div className="glass-card p-6">
-        <h3 className="text-lg font-semibold mb-4 text-white">
-          Contribution Stats
+        <h3 className="text-lg font-semibold mb-4 text-heading">
+          {t('myNode.contributionStats')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-4 rounded-lg bg-slate-800/50">
-            <p className="text-sm text-slate-400 mb-2">Uptime</p>
-            <p className="text-2xl font-bold text-white">
+          <div className="p-4 rounded-lg bg-elevated">
+            <p className="text-sm text-label mb-2">{t('myNode.uptime')}</p>
+            <p className="text-2xl font-bold text-heading">
               {formatNumber(
                 (rewardData?.contribution.uptimeSeconds ?? 0) / 3600,
                 2
               )}{' '}
-              hours
+              {t('myNode.hours')}
             </p>
           </div>
-          <div className="p-4 rounded-lg bg-slate-800/50">
-            <p className="text-sm text-slate-400 mb-2">Last Updated</p>
-            <p className="text-2xl font-bold text-white">
+          <div className="p-4 rounded-lg bg-elevated">
+            <p className="text-sm text-label mb-2">{t('myNode.lastUpdated')}</p>
+            <p className="text-2xl font-bold text-heading">
               {rewardData?.contribution.lastUpdated
                 ? new Date(rewardData.contribution.lastUpdated).toLocaleString()
-                : 'Never'}
+                : t('myNode.never')}
             </p>
           </div>
         </div>
@@ -147,15 +146,15 @@ export const MyNode = () => {
       >
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="text-lg font-semibold text-white mb-1">
-              Claim Rewards
+            <h3 className="text-lg font-semibold text-heading mb-1">
+              {t('myNode.claimRewards')}
             </h3>
-            <p className="text-sm text-slate-400">
-              Claim your accumulated rewards to your wallet
+            <p className="text-sm text-label">
+              {t('myNode.claimDesc')}
             </p>
           </div>
           <div className="text-right">
-            <p className="text-sm text-slate-400 mb-1">Available to Claim</p>
+            <p className="text-sm text-label mb-1">{t('myNode.availableToClaim')}</p>
             <p className="text-3xl font-bold text-cyan-400">
               {formatPLM(rewardData?.pending ?? '0')} PLM
             </p>
@@ -167,15 +166,15 @@ export const MyNode = () => {
           disabled={BigInt(rewardData?.pending ?? '0') === 0n}
         >
           {BigInt(rewardData?.pending ?? '0') === 0n
-            ? 'No Rewards Available'
-            : 'Claim Rewards'}
+            ? t('myNode.noRewards')
+            : t('myNode.claimBtn')}
         </button>
       </motion.div>
 
       <div className="glass-card p-6">
-        <h3 className="text-lg font-semibold mb-4 text-white">Activity Log</h3>
-        <div className="text-center py-8 text-slate-400">
-          No recent activity to display
+        <h3 className="text-lg font-semibold mb-4 text-heading">{t('myNode.activityLog')}</h3>
+        <div className="text-center py-8 text-label">
+          {t('myNode.noActivity')}
         </div>
       </div>
     </div>
