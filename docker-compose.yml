@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  plumise-dashboard:
+    build: .
+    container_name: plumise-dashboard
+    ports:
+      - "15420:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production

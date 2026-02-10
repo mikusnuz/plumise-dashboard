@@ -40,12 +40,12 @@ npm install
 Copy `.env.example` to `.env` and configure:
 
 ```env
-VITE_RPC_URL=https://node-1.plumise.com/rpc
-VITE_WS_URL=wss://node-1.plumise.com/ws
+VITE_RPC_URL=https://node-1.plm.plumbug.studio/rpc
+VITE_WS_URL=wss://node-1.plm.plumbug.studio/ws
 VITE_CHAIN_ID=41956
 VITE_REWARD_POOL_ADDRESS=0x0000000000000000000000000000000000001000
-VITE_AGENT_REGISTRY_ADDRESS=<your_agent_registry_address>
-VITE_CHALLENGE_MANAGER_ADDRESS=<your_challenge_manager_address>
+VITE_AGENT_REGISTRY_ADDRESS=0xC9CF64344D22f02f6cDB8e7B5349f30E09F9043C
+VITE_CHALLENGE_MANAGER_ADDRESS=0x0000000000000000000000000000000000000000
 ```
 
 ### Development
@@ -66,6 +66,21 @@ npm run build
 
 ```bash
 npm run preview
+```
+
+## Docker
+
+Build and run with Docker:
+
+```bash
+docker build -t plumise-dashboard .
+docker run -p 80:80 plumise-dashboard
+```
+
+Or use docker-compose:
+
+```bash
+docker-compose up -d
 ```
 
 ## Project Structure
@@ -114,14 +129,14 @@ plumise-dashboard/
 
 - **Chain ID**: 41956 (0xA3E4)
 - **Network**: Plumise AI
-- **RPC**: https://node-1.plumise.com/rpc
+- **RPC**: https://node-1.plm.plumbug.studio/rpc
 - **Explorer**: https://scan.plumise.com
 
 ## Contracts
 
 - **RewardPool**: `0x0000000000000000000000000000000000001000`
-- **AgentRegistry**: Configure in `.env`
-- **ChallengeManager**: Configure in `.env`
+- **AgentRegistry**: `0xC9CF64344D22f02f6cDB8e7B5349f30E09F9043C`
+- **ChallengeManager**: `0x0000000000000000000000000000000000000000` (placeholder)
 
 ## Reward Formula
 
