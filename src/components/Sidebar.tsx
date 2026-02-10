@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Users, Award, Zap, User, Sun, Moon, Globe } from 'lucide-react'
+import { LayoutDashboard, Users, Award, Zap, User, Sun, Moon } from 'lucide-react'
 import { useTranslation } from '../i18n'
 import { useTheme } from '../theme'
 
 export const Sidebar = () => {
-  const { t, locale, setLocale } = useTranslation()
+  const { t } = useTranslation()
   const { theme, toggleTheme } = useTheme()
 
   const navigation = [
@@ -42,24 +42,14 @@ export const Sidebar = () => {
       </nav>
 
       <div className="mt-6 space-y-3">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={toggleTheme}
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-elevated text-body transition-colors hover:text-cyan-400"
-            title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-          >
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-            <span className="text-sm">{theme === 'dark' ? 'Light' : 'Dark'}</span>
-          </button>
-          <button
-            onClick={() => setLocale(locale === 'en' ? 'ko' : 'en')}
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-elevated text-body transition-colors hover:text-cyan-400"
-            title={locale === 'en' ? '한국어' : 'English'}
-          >
-            <Globe size={16} />
-            <span className="text-sm">{locale === 'en' ? '한국어' : 'EN'}</span>
-          </button>
-        </div>
+        <button
+          onClick={toggleTheme}
+          className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-elevated text-body transition-colors hover:text-cyan-400"
+          title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+        >
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          <span className="text-sm">{theme === 'dark' ? 'Light' : 'Dark'}</span>
+        </button>
 
         <div className="p-4 rounded-lg bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-500/20">
           <p className="text-xs text-label mb-2">{t('sidebar.chainId')}</p>
