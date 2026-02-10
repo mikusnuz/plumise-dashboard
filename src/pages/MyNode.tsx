@@ -19,9 +19,17 @@ export const MyNode = () => {
       const accounts = (await window.ethereum.request({
         method: 'eth_requestAccounts',
       })) as string[]
-      setWalletAddress(accounts[0] as `0x${string}`)
+
+      const addr = accounts[0]
+      // Validate address format before using it
+      if (addr && /^0x[0-9a-fA-F]{40}$/.test(addr)) {
+        setWalletAddress(addr as `0x${string}`)
+      } else {
+        alert('Invalid wallet address returned')
+      }
     } catch (error) {
-      console.error('Failed to connect wallet:', error)
+      // Log connection errors (non-sensitive info only)
+      console.error('Failed to connect wallet:', error instanceof Error ? error.message : 'Unknown error')
     }
   }
 

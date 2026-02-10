@@ -40,7 +40,9 @@ export const Sidebar = () => {
 
       <div className="mt-8 p-4 rounded-lg bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-500/20">
         <p className="text-xs text-slate-400 mb-2">Chain ID</p>
-        <p className="text-sm font-mono text-cyan-400">41956 (0xA3E4)</p>
+        <p className="text-sm font-mono text-cyan-400">
+          {import.meta.env.VITE_CHAIN_ID || '41956'} (0x{Number(import.meta.env.VITE_CHAIN_ID || 41956).toString(16).toUpperCase()})
+        </p>
       </div>
     </aside>
   )
