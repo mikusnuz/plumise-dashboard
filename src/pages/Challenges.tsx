@@ -118,8 +118,8 @@ export const Challenges = () => {
             </thead>
             <tbody className="divide-y divide-theme">
               {history?.map((challenge) => {
-                const createdAt = new Date(challenge.createdAt).getTime() / 1000
-                const expiresAt = new Date(challenge.expiresAt).getTime() / 1000
+                const createdAt = Number(challenge.createdAt)
+                const expiresAt = Number(challenge.expiresAt)
                 const solveTime = expiresAt - createdAt
 
                 return (

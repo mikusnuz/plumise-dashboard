@@ -89,10 +89,10 @@ export const AgentTable = ({ agents, loading }: AgentTableProps) => {
                   </span>
                 </td>
                 <td className="px-6 py-4 text-sm text-body">
-                  {formatTime(new Date(agent.lastHeartbeat).getTime() / 1000)}
+                  {formatTime(Number(agent.lastHeartbeat))}
                 </td>
                 <td className="px-6 py-4 text-sm text-body">
-                  {formatTime(new Date(agent.registeredAt).getTime() / 1000)}
+                  {formatTime(Number(agent.registeredAt))}
                 </td>
                 <td className="px-6 py-4">
                   <ChevronDown

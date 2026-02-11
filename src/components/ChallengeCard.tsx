@@ -11,7 +11,7 @@ interface ChallengeCardProps {
 export const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
   const { t } = useTranslation()
   const now = Math.floor(Date.now() / 1000)
-  const expiresAt = Math.floor(new Date(challenge.expiresAt).getTime() / 1000)
+  const expiresAt = Number(challenge.expiresAt)
   const timeRemaining = expiresAt - now
   const isExpired = timeRemaining <= 0
 
