@@ -34,6 +34,8 @@ export const formatTime = (timestamp: number): string => {
   const now = Date.now()
   const diff = now - date.getTime()
 
+  if (diff < 0) return 'just now'
+
   const seconds = Math.floor(diff / 1000)
   const minutes = Math.floor(seconds / 60)
   const hours = Math.floor(minutes / 60)
