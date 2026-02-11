@@ -6,6 +6,8 @@ services:
     container_name: plumise-dashboard
     ports:
       - "15480:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
     environment:
       - NODE_ENV=production
