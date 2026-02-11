@@ -5,7 +5,7 @@ export const useNetworkStats = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['networkStats'],
     queryFn: () => api.getStats(),
-    refetchInterval: 5000,
+    refetchInterval: 30000,
   })
 
   return {

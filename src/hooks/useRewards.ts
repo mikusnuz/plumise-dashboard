@@ -9,7 +9,7 @@ export const useRewards = (address?: string) => {
     queryKey: ['rewards', address],
     queryFn: () => api.getRewards(address!),
     enabled: !!address,
-    refetchInterval: 10000,
+    refetchInterval: 30000,
   })
 }
 
@@ -17,7 +17,7 @@ export const useEpochs = () => {
   return useQuery({
     queryKey: ['epochs'],
     queryFn: () => api.getEpochs(),
-    refetchInterval: 10000,
+    refetchInterval: 30000,
   })
 }
 
@@ -26,7 +26,7 @@ export const useEpoch = (epoch?: number) => {
     queryKey: ['epoch', epoch],
     queryFn: () => api.getEpoch(epoch!),
     enabled: !!epoch && epoch > 0,
-    refetchInterval: 10000,
+    refetchInterval: 30000,
   })
 }
 

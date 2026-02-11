@@ -2,9 +2,11 @@ import { Users, Award, Zap, TrendingUp } from 'lucide-react'
 import StatCard from '../components/StatCard'
 import RewardChart from '../components/RewardChart'
 import ChallengeCard from '../components/ChallengeCard'
+import { RealtimeBlockFeed } from '../components/RealtimeBlockFeed'
 import { useNetworkStats } from '../hooks/useNetworkStats'
 import { useEpochs } from '../hooks/useRewards'
 import { useCurrentChallenge } from '../hooks/useChallenges'
+import { useRealtimeEvents } from '../hooks/useRealtimeEvents'
 import { formatNumber } from '../lib/formatters'
 import { useTranslation } from '../i18n'
 
@@ -14,6 +16,8 @@ export const Overview = () => {
     useNetworkStats()
   const { data: currentChallengeData } = useCurrentChallenge()
   const { data: epochsData } = useEpochs()
+
+  useRealtimeEvents()
 
   const rewardChartData = epochsData
     ? epochsData.slice(0, 24).map((epoch) => ({
@@ -60,7 +64,7 @@ export const Overview = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-6">
           {rewardChartData.length > 0 ? (
             <RewardChart data={rewardChartData} />
           ) : (
@@ -68,6 +72,7 @@ export const Overview = () => {
               <p className="text-label text-center">{t('overview.loadingReward')}</p>
             </div>
           )}
+          <RealtimeBlockFeed />
         </div>
 
         <div>

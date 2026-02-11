@@ -8,7 +8,7 @@ export const useCurrentChallenge = () => {
   return useQuery({
     queryKey: ['currentChallenge'],
     queryFn: () => api.getCurrentChallenge(),
-    refetchInterval: 5000,
+    refetchInterval: 30000,
   })
 }
 
@@ -16,6 +16,6 @@ export const useChallenges = () => {
   return useQuery({
     queryKey: ['challenges'],
     queryFn: () => api.getChallenges(),
-    refetchInterval: 10000,
+    refetchInterval: 30000,
   })
 }

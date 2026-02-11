@@ -1,11 +1,13 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Users, Award, Zap, User, Sun, Moon } from 'lucide-react'
+import { LayoutDashboard, Users, Award, Zap, User, Sun, Moon, Wifi, WifiOff } from 'lucide-react'
 import { useTranslation } from '../i18n'
 import { useTheme } from '../theme'
+import { useRealtimeBlocks } from '../hooks/useRealtimeBlocks'
 
 export const Sidebar = () => {
   const { t } = useTranslation()
   const { theme, toggleTheme } = useTheme()
+  const { isConnected } = useRealtimeBlocks()
 
   const navigation = [
     { key: 'nav.overview', to: '/', icon: LayoutDashboard },
@@ -50,6 +52,19 @@ export const Sidebar = () => {
           {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
           <span className="text-sm">{theme === 'dark' ? 'Light' : 'Dark'}</span>
         </button>
+
+        <div className="p-3 rounded-lg bg-elevated border border-surface-200">
+          <div className="flex items-center gap-2">
+            {isConnected ? (
+              <Wifi size={16} className="text-green-500" />
+            ) : (
+              <WifiOff size={16} className="text-gray-400" />
+            )}
+            <span className="text-xs text-label">
+              {isConnected ? 'WebSocket Connected' : 'WebSocket Disconnected'}
+            </span>
+          </div>
+        </div>
 
         <div className="p-4 rounded-lg bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-500/20">
           <p className="text-xs text-label mb-2">{t('sidebar.chainId')}</p>

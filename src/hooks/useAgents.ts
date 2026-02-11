@@ -8,7 +8,7 @@ export const useAgents = () => {
   return useQuery({
     queryKey: ['agents'],
     queryFn: () => api.getAgents(),
-    refetchInterval: 10000,
+    refetchInterval: 30000,
   })
 }
 
@@ -16,7 +16,7 @@ export const useActiveAgents = () => {
   return useQuery({
     queryKey: ['activeAgents'],
     queryFn: () => api.getActiveAgents(),
-    refetchInterval: 10000,
+    refetchInterval: 30000,
   })
 }
 
@@ -25,6 +25,6 @@ export const useAgent = (address?: string) => {
     queryKey: ['agent', address],
     queryFn: () => api.getAgent(address!),
     enabled: !!address,
-    refetchInterval: 10000,
+    refetchInterval: 30000,
   })
 }
