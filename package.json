@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@plumise/core": "file:../plumise-core",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-query": "^5.90.20",
     "lucide-react": "^0.563.0",

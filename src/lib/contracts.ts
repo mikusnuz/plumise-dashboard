@@ -1,8 +1,6 @@
 import { createPublicClient, http, webSocket } from 'viem'
+import { agentRegistryAbi, rewardPoolAbi, challengeManagerAbi } from '@plumise/core'
 import { plumise, CONTRACTS } from '../config/chain'
-import agentRegistryAbi from './agent-registry-abi.json'
-import rewardPoolAbi from './reward-pool-abi.json'
-import challengeManagerAbi from './challenge-manager-abi.json'
 
 export const publicClient = createPublicClient({
   chain: plumise,

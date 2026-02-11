@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { LayoutDashboard, Users, Award, Zap, User, Sun, Moon, Wifi, WifiOff } from 'lucide-react'
+import { plumise } from '@plumise/core'
 import { useTranslation } from '../i18n'
 import { useTheme } from '../theme'
 import { useRealtimeBlocks } from '../hooks/useRealtimeBlocks'
@@ -69,7 +70,7 @@ export const Sidebar = () => {
         <div className="p-4 rounded-lg bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-500/20">
           <p className="text-xs text-label mb-2">{t('sidebar.chainId')}</p>
           <p className="text-sm font-mono text-cyan-400">
-            {import.meta.env.VITE_CHAIN_ID || '41956'} (0x{Number(import.meta.env.VITE_CHAIN_ID || 41956).toString(16).toUpperCase()})
+            {plumise.id} (0x{plumise.id.toString(16).toUpperCase()})
           </p>
         </div>
       </div>
