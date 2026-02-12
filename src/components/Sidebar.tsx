@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Users, Award, Zap, User, Sun, Moon } from 'lucide-react'
+import { LayoutDashboard, Users, Award, Zap, User, Sun, Moon, Network } from 'lucide-react'
 import { plumise } from '@plumise/core'
 import { useTranslation } from '../i18n'
 import { useTheme } from '../theme'
@@ -13,6 +13,7 @@ export const Sidebar = () => {
   const navigation = [
     { key: 'nav.overview', to: '/', icon: LayoutDashboard },
     { key: 'nav.agents', to: '/agents', icon: Users },
+    { key: 'nav.pipeline', to: '/pipeline', icon: Network },
     { key: 'nav.rewards', to: '/rewards', icon: Award },
     { key: 'nav.challenges', to: '/challenges', icon: Zap },
     { key: 'nav.myNode', to: '/my-node', icon: User },

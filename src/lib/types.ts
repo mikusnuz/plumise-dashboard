@@ -63,3 +63,19 @@ export interface Challenge {
   solver: string
   rewardBonus: string
 }
+
+export interface PipelineNode {
+  address: string
+  grpcEndpoint: string
+  httpEndpoint: string
+  layerStart: number
+  layerEnd: number
+  pipelineOrder: number
+  ready: boolean
+}
+
+export interface PipelineTopology {
+  model: string
+  totalLayers: number
+  nodes: PipelineNode[]
+}

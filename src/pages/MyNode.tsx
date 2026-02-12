@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
-import { Wallet, Award, Activity, TrendingUp } from 'lucide-react'
+import { Wallet, Award, Activity, TrendingUp, Layers, CheckCircle, XCircle } from 'lucide-react'
 import { motion } from 'motion/react'
 import StatCard from '../components/StatCard'
 import NodeInstallSection from '../components/NodeInstallSection'
 import { useRewards } from '../hooks/useRewards'
+import { usePipelineTopology } from '../hooks/usePipeline'
 import { formatAddress, formatPLM, formatNumber } from '../lib/formatters'
 import { useTranslation } from '../i18n'
 
@@ -33,7 +34,12 @@ export const MyNode = () => {
   const { t } = useTranslation()
   const [walletAddress, setWalletAddress] = useState<`0x${string}` | undefined>()
   const { data: rewardData } = useRewards(walletAddress)
+  const { data: topology } = usePipelineTopology()
   const eip6963Provider = useRef<any>(null)
+
+  const myNode = topology?.nodes.find(
+    (node) => node.address.toLowerCase() === walletAddress?.toLowerCase()
+  )
 
   // Listen for EIP-6963 wallet announcements (PlumWallet)
   useEffect(() => {
@@ -134,6 +140,67 @@ export const MyNode = () => {
       </div>
 
       <NodeInstallSection walletAddress={walletAddress} />
+
+      {myNode && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="glass-card p-6"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-lg font-semibold text-heading mb-1">
+                {t('myNode.pipelineStatus')}
+              </h3>
+              <p className="text-sm text-label">
+                {t('myNode.pipelineDesc')}
+              </p>
+            </div>
+            <div
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg ${
+                myNode.ready
+                  ? 'bg-green-500/20 border border-green-500/30'
+                  : 'bg-red-500/20 border border-red-500/30'
+              }`}
+            >
+              {myNode.ready ? (
+                <CheckCircle size={16} className="text-green-400" />
+              ) : (
+                <XCircle size={16} className="text-red-400" />
+              )}
+              <span
+                className={`text-sm font-medium ${
+                  myNode.ready ? 'text-green-400' : 'text-red-400'
+                }`}
+              >
+                {myNode.ready ? t('pipeline.online') : t('pipeline.offline')}
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 rounded-lg bg-elevated">
+              <div className="flex items-center gap-2 mb-2">
+                <Layers size={16} className="text-label" />
+                <p className="text-xs text-hint">{t('myNode.layerRange')}</p>
+              </div>
+              <p className="text-xl font-bold text-heading">
+                {myNode.layerStart} - {myNode.layerEnd}
+              </p>
+            </div>
+
+            <div className="p-4 rounded-lg bg-elevated">
+              <p className="text-xs text-hint mb-2">{t('myNode.pipelineOrder')}</p>
+              <p className="text-xl font-bold text-heading">#{myNode.pipelineOrder}</p>
+            </div>
+
+            <div className="p-4 rounded-lg bg-elevated">
+              <p className="text-xs text-hint mb-2">{t('myNode.grpcEndpoint')}</p>
+              <p className="text-sm font-mono text-body truncate">{myNode.grpcEndpoint}</p>
+            </div>
+          </div>
+        </motion.div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard

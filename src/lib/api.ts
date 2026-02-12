@@ -7,6 +7,7 @@ import type {
   Challenge,
   Rewards,
   RewardFormula,
+  PipelineTopology,
 } from './types'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:15481/api'
@@ -28,4 +29,6 @@ export const api = {
   getCurrentChallenge: () => fetchApi<Challenge | null>('/challenges/current'),
   getRewards: (address: string) => fetchApi<Rewards>(`/rewards/${address}`),
   getFormula: () => fetchApi<RewardFormula>('/formula'),
+  getPipelineTopology: (model = 'mistralai/Mistral-7B-Instruct-v0.2') =>
+    fetchApi<PipelineTopology>(`/v1/pipeline/topology?model=${encodeURIComponent(model)}`),
 }

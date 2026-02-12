@@ -8,6 +8,7 @@ import Agents from './pages/Agents'
 import Rewards from './pages/Rewards'
 import Challenges from './pages/Challenges'
 import MyNode from './pages/MyNode'
+import Pipeline from './pages/Pipeline'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,6 +30,7 @@ function App() {
               <Route path="/" element={<Layout />}>
                 <Route index element={<Overview />} />
                 <Route path="agents" element={<Agents />} />
+                <Route path="pipeline" element={<Pipeline />} />
                 <Route path="rewards" element={<Rewards />} />
                 <Route path="challenges" element={<Challenges />} />
                 <Route path="my-node" element={<MyNode />} />
