@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { ChevronDown, Terminal, Monitor, Box } from 'lucide-react'
+import { ChevronDown, Terminal, Monitor, Box, Download } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 import CodeBlock from './CodeBlock'
 import { useTranslation } from '../i18n'
@@ -34,6 +34,12 @@ export const NodeInstallSection = ({ walletAddress }: NodeInstallSectionProps) =
     t('myNode.step4'),
   ]
 
+  const tabs: { id: InstallTab; icon: typeof Monitor; label: string }[] = [
+    { id: 'desktop', icon: Monitor, label: t('myNode.tabDesktop') },
+    { id: 'pip', icon: Terminal, label: t('myNode.tabPip') },
+    { id: 'docker', icon: Box, label: 'Docker' },
+  ]
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -51,86 +57,75 @@ export const NodeInstallSection = ({ walletAddress }: NodeInstallSectionProps) =
 
       {/* Install method tabs */}
       <div className="flex gap-2 mb-5">
-        <button
-          onClick={() => setActiveTab('desktop')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            activeTab === 'desktop' ? 'tab-active' : 'tab-inactive'
-          }`}
-        >
-          <Monitor size={16} />
-          {t('myNode.tabDesktop')}
-        </button>
-        <button
-          onClick={() => setActiveTab('pip')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            activeTab === 'pip' ? 'tab-active' : 'tab-inactive'
-          }`}
-        >
-          <Terminal size={16} />
-          {t('myNode.tabPip')}
-        </button>
-        <button
-          onClick={() => setActiveTab('docker')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            activeTab === 'docker' ? 'tab-active' : 'tab-inactive'
-          }`}
-        >
-          <Box size={16} />
-          Docker
-        </button>
+        {tabs.map(({ id, icon: Icon, label }) => (
+          <button
+            key={id}
+            onClick={() => setActiveTab(id)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              activeTab === id ? 'tab-active' : 'tab-inactive'
+            }`}
+          >
+            <Icon size={16} />
+            {label}
+          </button>
+        ))}
       </div>
 
-      {/* Desktop app tab */}
-      {activeTab === 'desktop' && (
-        <div className="space-y-4">
-          <div className="rounded-lg bg-elevated p-6 text-center space-y-4">
-            <div className="p-4 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 w-16 h-16 flex items-center justify-center mx-auto">
-              <Monitor size={32} className="text-cyan-400" />
+      {/* Tab content - fixed height container */}
+      <div className="min-h-[320px]">
+        {/* Desktop app tab */}
+        {activeTab === 'desktop' && (
+          <div className="space-y-4">
+            <div className="rounded-xl bg-[#0d1117] border border-white/[0.06] p-8 flex flex-col items-center justify-center min-h-[272px] space-y-5">
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-cyan-500/15 to-purple-500/15 border border-cyan-500/20">
+                <Monitor size={36} className="text-cyan-400" />
+              </div>
+              <div className="text-center">
+                <p className="text-gray-200 font-semibold text-lg mb-1">{t('myNode.desktopTitle')}</p>
+                <p className="text-sm text-gray-500 max-w-xs">
+                  {t('myNode.desktopDesc')}
+                </p>
+              </div>
+              <a
+                href="https://github.com/mikusnuz/plumise-agent-app/releases/latest"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary inline-flex items-center gap-2 py-2.5 px-6"
+              >
+                <Download size={16} />
+                {t('myNode.downloadBtn')}
+              </a>
             </div>
-            <div>
-              <p className="text-heading font-semibold mb-1">{t('myNode.desktopTitle')}</p>
-              <p className="text-sm text-label mb-4">
-                {t('myNode.desktopDesc')}
-              </p>
+            <div className="flex items-center gap-3 text-xs text-label">
+              <span className="badge-info">{t('myNode.gpuAuto')}</span>
+              <span className="badge-success">{t('myNode.noConfig')}</span>
+              <span className="text-hint">Windows</span>
             </div>
-            <a
-              href="https://github.com/mikusnuz/plumise-agent-app/releases/latest"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary inline-flex items-center gap-2 py-2.5 px-6"
-            >
-              {t('myNode.downloadBtn')}
-            </a>
           </div>
-          <div className="flex items-center gap-3 text-xs text-label">
-            <span className="badge-info">{t('myNode.gpuAuto')}</span>
-            <span className="badge-success">{t('myNode.noConfig')}</span>
-            <span className="text-hint">Windows</span>
-          </div>
-        </div>
-      )}
+        )}
 
-      {/* pip install tab */}
-      {activeTab === 'pip' && (
-        <div className="space-y-3">
-          <CodeBlock code={pipCode} highlightAddress={walletAddress} />
-          <div className="flex items-center gap-3 text-xs text-label">
-            <span className="badge-info">Python 3.10+</span>
-            <span className="text-hint">Linux / macOS</span>
+        {/* pip install tab */}
+        {activeTab === 'pip' && (
+          <div className="space-y-3">
+            <CodeBlock code={pipCode} highlightAddress={walletAddress} title="bash" />
+            <div className="flex items-center gap-3 text-xs text-label">
+              <span className="badge-info">Python 3.10+</span>
+              <span className="text-hint">Linux / macOS</span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Docker tab */}
-      {activeTab === 'docker' && (
-        <div className="space-y-3">
-          <CodeBlock code={dockerCode} highlightAddress={walletAddress} />
-          <div className="flex items-center gap-3 text-xs text-label">
-            <span className="badge-info">Docker 24+</span>
-            <span className="text-hint">Linux / macOS / Windows (WSL)</span>
+        {/* Docker tab */}
+        {activeTab === 'docker' && (
+          <div className="space-y-3">
+            <CodeBlock code={dockerCode} highlightAddress={walletAddress} title="bash" />
+            <div className="flex items-center gap-3 text-xs text-label">
+              <span className="badge-info">Docker 24+</span>
+              <span className="text-hint">Linux / macOS / Windows (WSL)</span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* What this does - collapsible */}
       <div className="mt-5 border-t border-[var(--border-divider)] pt-4">
