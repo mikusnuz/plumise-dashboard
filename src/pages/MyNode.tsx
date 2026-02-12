@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Wallet, Award, Activity, TrendingUp } from 'lucide-react'
 import { motion } from 'motion/react'
 import StatCard from '../components/StatCard'
@@ -7,19 +7,56 @@ import { useRewards } from '../hooks/useRewards'
 import { formatAddress, formatPLM, formatNumber } from '../lib/formatters'
 import { useTranslation } from '../i18n'
 
+/**
+ * Detect PlumWallet provider with priority:
+ * 1. window.plumise.ethereum (branded namespace, always PlumWallet)
+ * 2. window.ethereum.providers[] with isPlumWallet flag
+ * 3. window.ethereum.isPlumWallet direct check
+ * 4. window.ethereum fallback
+ */
+function getProvider(): any {
+  const plumise = (window as any).plumise?.ethereum
+  if (plumise) return plumise
+
+  const providers = (window as any).ethereum?.providers
+  if (Array.isArray(providers)) {
+    const plumProvider = providers.find((p: any) => p.isPlumWallet === true)
+    if (plumProvider) return plumProvider
+  }
+
+  if ((window as any).ethereum?.isPlumWallet) return (window as any).ethereum
+
+  return (window as any).ethereum ?? null
+}
+
 export const MyNode = () => {
   const { t } = useTranslation()
   const [walletAddress, setWalletAddress] = useState<`0x${string}` | undefined>()
   const { data: rewardData } = useRewards(walletAddress)
+  const eip6963Provider = useRef<any>(null)
+
+  // Listen for EIP-6963 wallet announcements (PlumWallet)
+  useEffect(() => {
+    const handler = (event: any) => {
+      const detail = event.detail
+      if (detail?.info?.rdns === 'com.plumbug.plumwallet' || detail?.provider?.isPlumWallet) {
+        eip6963Provider.current = detail.provider
+      }
+    }
+    window.addEventListener('eip6963:announceProvider', handler)
+    window.dispatchEvent(new Event('eip6963:requestProvider'))
+    return () => window.removeEventListener('eip6963:announceProvider', handler)
+  }, [])
 
   const handleConnect = async () => {
-    if (typeof window.ethereum === 'undefined') {
-      alert(t('myNode.installMetamask'))
+    const ethereum = eip6963Provider.current ?? getProvider()
+    if (!ethereum) {
+      alert(t('myNode.installWallet'))
       return
     }
 
     try {
-      const accounts = (await window.ethereum.request({
+      const accounts = (await ethereum.request({
         method: 'eth_requestAccounts',
       })) as string[]
 

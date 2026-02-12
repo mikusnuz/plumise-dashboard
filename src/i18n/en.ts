@@ -116,7 +116,7 @@ const en = {
   'myNode.claimBtn': 'Claim Rewards',
   'myNode.activityLog': 'Activity Log',
   'myNode.noActivity': 'No recent activity to display',
-  'myNode.installMetamask': 'Please install MetaMask to connect your wallet',
+  'myNode.installWallet': 'Please install PlumWallet or MetaMask to connect',
   'myNode.invalidAddress': 'Invalid wallet address returned',
   'myNode.setupTitle': 'Run a Node, Earn PLM',
   'myNode.setupDesc': 'Contribute your computing power to the Plumise AI network and earn rewards.',

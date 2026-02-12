@@ -116,7 +116,7 @@ const ko = {
   'myNode.claimBtn': '보상 수령하기',
   'myNode.activityLog': '활동 기록',
   'myNode.noActivity': '표시할 활동 기록이 없습니다',
-  'myNode.installMetamask': 'MetaMask를 설치해주세요',
+  'myNode.installWallet': 'PlumWallet 또는 MetaMask를 설치해주세요',
   'myNode.invalidAddress': '유효하지 않은 지갑 주소입니다',
   'myNode.setupTitle': '노드 운영하고, PLM 받기',
   'myNode.setupDesc': 'Plumise AI 네트워크에 컴퓨팅 파워를 제공하고 보상을 받으세요.',
