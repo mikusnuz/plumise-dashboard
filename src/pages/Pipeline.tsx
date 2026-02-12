@@ -136,15 +136,9 @@ export const Pipeline = () => {
                       </div>
                     </div>
 
-                    <div className="mt-4 pt-4 border-t border-theme grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-xs text-hint mb-1">{t('pipeline.grpcEndpoint')}</p>
-                        <p className="text-xs font-mono text-body">{node.grpcEndpoint}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-hint mb-1">{t('pipeline.httpEndpoint')}</p>
-                        <p className="text-xs font-mono text-body">{node.httpEndpoint}</p>
-                      </div>
+                    <div className="mt-4 pt-4 border-t border-theme">
+                      <p className="text-xs text-hint mb-1">{t('pipeline.status')}</p>
+                      <p className="text-xs font-mono text-body">{node.ready ? 'Online' : 'Offline'}</p>
                     </div>
                   </div>
 

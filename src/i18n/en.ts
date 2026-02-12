@@ -139,7 +139,7 @@ const en = {
   'myNode.pipelineDesc': 'Your node position and status in the distributed inference network',
   'myNode.layerRange': 'Layer Range',
   'myNode.pipelineOrder': 'Pipeline Order',
-  'myNode.grpcEndpoint': 'gRPC Endpoint',
+  'myNode.status': 'Status',
 
   // Pipeline
   'pipeline.title': 'Inference Pipeline',
@@ -155,8 +155,7 @@ const en = {
   'pipeline.offline': 'Offline',
   'pipeline.layerRange': 'Layers {start}-{end} / {total}',
   'pipeline.order': 'Order',
-  'pipeline.grpcEndpoint': 'gRPC Endpoint',
-  'pipeline.httpEndpoint': 'HTTP Endpoint',
+  'pipeline.status': 'Status',
   'pipeline.noNodes': 'No pipeline nodes registered',
   'pipeline.realtimeConnected': 'Real-time connected',
   'pipeline.realtimeDisconnected': 'Real-time disconnected',

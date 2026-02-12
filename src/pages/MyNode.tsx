@@ -195,8 +195,8 @@ export const MyNode = () => {
             </div>
 
             <div className="p-4 rounded-lg bg-elevated">
-              <p className="text-xs text-hint mb-2">{t('myNode.grpcEndpoint')}</p>
-              <p className="text-sm font-mono text-body truncate">{myNode.grpcEndpoint}</p>
+              <p className="text-xs text-hint mb-2">{t('myNode.status')}</p>
+              <p className="text-sm font-mono text-body truncate">{myNode.ready ? 'Online' : 'Offline'}</p>
             </div>
           </div>
         </motion.div>

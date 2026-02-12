@@ -139,7 +139,7 @@ const ko = {
   'myNode.pipelineDesc': '분산 추론 네트워크에서 내 노드의 위치와 상태',
   'myNode.layerRange': '담당 레이어 범위',
   'myNode.pipelineOrder': '파이프라인 순서',
-  'myNode.grpcEndpoint': 'gRPC 엔드포인트',
+  'myNode.status': '상태',
 
   // Pipeline
   'pipeline.title': '추론 파이프라인',
@@ -155,8 +155,7 @@ const ko = {
   'pipeline.offline': '오프라인',
   'pipeline.layerRange': 'Layers {start}-{end} / {total}',
   'pipeline.order': '순서',
-  'pipeline.grpcEndpoint': 'gRPC 엔드포인트',
-  'pipeline.httpEndpoint': 'HTTP 엔드포인트',
+  'pipeline.status': '상태',
   'pipeline.noNodes': '등록된 파이프라인 노드가 없습니다',
   'pipeline.realtimeConnected': '실시간 연결됨',
   'pipeline.realtimeDisconnected': '실시간 연결 끊김',
