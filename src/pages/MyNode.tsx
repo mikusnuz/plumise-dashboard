@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Wallet, Award, Activity, TrendingUp } from 'lucide-react'
 import { motion } from 'motion/react'
 import StatCard from '../components/StatCard'
+import NodeInstallSection from '../components/NodeInstallSection'
 import { useRewards } from '../hooks/useRewards'
 import { formatAddress, formatPLM, formatNumber } from '../lib/formatters'
 import { useTranslation } from '../i18n'
@@ -94,6 +95,8 @@ export const MyNode = () => {
           </div>
         </div>
       </div>
+
+      <NodeInstallSection walletAddress={walletAddress} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
