@@ -1,17 +1,7 @@
 /// <reference types="vite/client" />
 
-interface ImportMetaEnv {
-  readonly VITE_RPC_URL: string
-  readonly VITE_WS_URL: string
-  readonly VITE_CHAIN_ID: string
-  readonly VITE_REWARD_POOL_ADDRESS: string
-  readonly VITE_AGENT_REGISTRY_ADDRESS: string
-  readonly VITE_CHALLENGE_MANAGER_ADDRESS: string
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv
-}
+// Chain config and contract addresses are sourced from @plumise/core (see config/chain.ts).
+// No VITE_* env vars are used at runtime.
 
 interface Window {
   ethereum?: {

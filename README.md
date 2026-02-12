@@ -8,7 +8,7 @@ Real-time dashboard for the Plumise AI chain network.
 - **Agent Management**: View all registered agents, active status, heartbeat monitoring
 - **Reward Tracking**: Epoch-by-epoch distribution history, reward formula breakdown
 - **Challenge History**: Proof-of-work challenge tracking, difficulty trends
-- **My Node**: Connect wallet, view personal agent stats, claim rewards
+- **My Node**: Connect wallet, view personal agent stats, monitor rewards (auto-claimed by Oracle)
 
 ## Tech Stack
 
@@ -35,18 +35,9 @@ Real-time dashboard for the Plumise AI chain network.
 npm install
 ```
 
-### Environment Variables
+### Configuration
 
-Copy `.env.example` to `.env` and configure:
-
-```env
-VITE_RPC_URL=https://node-1.plm.plumbug.studio/rpc
-VITE_WS_URL=wss://node-1.plm.plumbug.studio/ws
-VITE_CHAIN_ID=41956
-VITE_REWARD_POOL_ADDRESS=0x0000000000000000000000000000000000001000
-VITE_AGENT_REGISTRY_ADDRESS=0xC9CF64344D22f02f6cDB8e7B5349f30E09F9043C
-VITE_CHALLENGE_MANAGER_ADDRESS=0x0000000000000000000000000000000000000000
-```
+Chain config and contract addresses are sourced from `@plumise/core` package. No `.env` configuration is needed.
 
 ### Development
 

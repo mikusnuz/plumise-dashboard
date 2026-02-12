@@ -54,6 +54,37 @@ export const MyNode = () => {
     return () => window.removeEventListener('eip6963:announceProvider', handler)
   }, [])
 
+  // Subscribe to wallet events (accountsChanged, chainChanged)
+  useEffect(() => {
+    const ethereum = eip6963Provider.current ?? getProvider()
+    if (!ethereum?.on) return
+
+    const handleAccountsChanged = (accounts: unknown) => {
+      const accts = accounts as string[]
+      if (accts.length === 0) {
+        setWalletAddress(undefined)
+      } else {
+        const addr = accts[0]
+        if (addr && /^0x[0-9a-fA-F]{40}$/.test(addr)) {
+          setWalletAddress(addr as `0x${string}`)
+        }
+      }
+    }
+
+    const handleChainChanged = () => {
+      // Reload data on chain change to avoid stale state
+      window.location.reload()
+    }
+
+    ethereum.on('accountsChanged', handleAccountsChanged)
+    ethereum.on('chainChanged', handleChainChanged)
+
+    return () => {
+      ethereum.removeListener?.('accountsChanged', handleAccountsChanged)
+      ethereum.removeListener?.('chainChanged', handleChainChanged)
+    }
+  }, [walletAddress])
+
   const handleConnect = async () => {
     const ethereum = eip6963Provider.current ?? getProvider()
     if (!ethereum) {
