@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Wallet, Award, Activity, TrendingUp, Layers, CheckCircle, XCircle } from 'lucide-react'
+import { Wallet, Award, Activity, TrendingUp, Layers, CheckCircle, XCircle, RefreshCw } from 'lucide-react'
 import { motion } from 'motion/react'
 import StatCard from '../components/StatCard'
 import NodeInstallSection from '../components/NodeInstallSection'
@@ -251,7 +251,7 @@ export const MyNode = () => {
         animate={{ opacity: 1, y: 0 }}
         className="glass-card p-6"
       >
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-lg font-semibold text-heading mb-1">
               {t('myNode.claimRewards')}
@@ -268,14 +268,12 @@ export const MyNode = () => {
           </div>
         </div>
 
-        <button
-          className="btn-primary w-full py-3"
-          disabled={BigInt(rewardData?.pending ?? '0') === 0n}
-        >
-          {BigInt(rewardData?.pending ?? '0') === 0n
-            ? t('myNode.noRewards')
-            : t('myNode.claimBtn')}
-        </button>
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
+          <RefreshCw size={16} className="text-cyan-400 flex-shrink-0" />
+          <p className="text-sm text-cyan-300">
+            {t('myNode.autoClaim')}
+          </p>
+        </div>
       </motion.div>
 
       <div className="glass-card p-6">

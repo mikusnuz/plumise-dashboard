@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { ChevronDown, Terminal, Box } from 'lucide-react'
+import { ChevronDown, Terminal, Monitor, Box } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 import CodeBlock from './CodeBlock'
 import { useTranslation } from '../i18n'
@@ -8,32 +8,23 @@ interface NodeInstallSectionProps {
   walletAddress: string
 }
 
-type InstallTab = 'oneline' | 'binary'
-type OsTab = 'mac' | 'linux' | 'windows'
-
-const detectOS = (): OsTab => {
-  const p = navigator.platform.toLowerCase()
-  if (p.includes('mac')) return 'mac'
-  if (p.includes('win')) return 'windows'
-  return 'linux'
-}
+type InstallTab = 'desktop' | 'pip' | 'docker'
 
 export const NodeInstallSection = ({ walletAddress }: NodeInstallSectionProps) => {
   const { t } = useTranslation()
-  const [activeTab, setActiveTab] = useState<InstallTab>('oneline')
-  const [osTab, setOsTab] = useState<OsTab>(detectOS)
+  const [activeTab, setActiveTab] = useState<InstallTab>('desktop')
   const [expanded, setExpanded] = useState(false)
 
-  const onelineCode = useMemo(
+  const pipCode = useMemo(
     () =>
-      `curl -fsSL https://get.plumise.com/node | sh -s -- \\\n  --wallet ${walletAddress}`,
-    [walletAddress]
+      `pip install plumise-agent\n\n# Create .env file\ncat > .env << EOF\nPRIVATE_KEY=<your-private-key>\nMODEL_NAME=openai/gpt-oss-20b\nDEVICE=auto\nORACLE_URL=https://oracle.plumise.com\nCHAIN_RPC=https://node-1.plumise.com/rpc\nEOF\n\n# Start the agent\nplumise-agent start`,
+    []
   )
 
-  const binaryCode = useMemo(
+  const dockerCode = useMemo(
     () =>
-      `curl -fsSL https://get.plumise.com/install | sh && \\\n  plumise-node start --wallet ${walletAddress}`,
-    [walletAddress]
+      `docker run -d --name plumise-agent \\\n  -e PRIVATE_KEY=<your-private-key> \\\n  -e MODEL_NAME=openai/gpt-oss-20b \\\n  -e DEVICE=auto \\\n  -e ORACLE_URL=https://oracle.plumise.com \\\n  -e CHAIN_RPC=https://node-1.plumise.com/rpc \\\n  --network host \\\n  ghcr.io/mikusnuz/plumise-agent:latest`,
+    []
   )
 
   const steps = [
@@ -61,76 +52,82 @@ export const NodeInstallSection = ({ walletAddress }: NodeInstallSectionProps) =
       {/* Install method tabs */}
       <div className="flex gap-2 mb-5">
         <button
-          onClick={() => setActiveTab('oneline')}
+          onClick={() => setActiveTab('desktop')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            activeTab === 'oneline' ? 'tab-active' : 'tab-inactive'
+            activeTab === 'desktop' ? 'tab-active' : 'tab-inactive'
+          }`}
+        >
+          <Monitor size={16} />
+          {t('myNode.tabDesktop')}
+        </button>
+        <button
+          onClick={() => setActiveTab('pip')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            activeTab === 'pip' ? 'tab-active' : 'tab-inactive'
           }`}
         >
           <Terminal size={16} />
-          {t('myNode.tabOneline')}
+          {t('myNode.tabPip')}
         </button>
         <button
-          onClick={() => setActiveTab('binary')}
+          onClick={() => setActiveTab('docker')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            activeTab === 'binary' ? 'tab-active' : 'tab-inactive'
+            activeTab === 'docker' ? 'tab-active' : 'tab-inactive'
           }`}
         >
           <Box size={16} />
-          {t('myNode.tabBinary')}
+          Docker
         </button>
       </div>
 
-      {/* One-line tab */}
-      {activeTab === 'oneline' && (
-        <div className="space-y-3">
-          <CodeBlock code={onelineCode} highlightAddress={walletAddress} />
+      {/* Desktop app tab */}
+      {activeTab === 'desktop' && (
+        <div className="space-y-4">
+          <div className="rounded-lg bg-elevated p-6 text-center space-y-4">
+            <div className="p-4 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 w-16 h-16 flex items-center justify-center mx-auto">
+              <Monitor size={32} className="text-cyan-400" />
+            </div>
+            <div>
+              <p className="text-heading font-semibold mb-1">{t('myNode.desktopTitle')}</p>
+              <p className="text-sm text-label mb-4">
+                {t('myNode.desktopDesc')}
+              </p>
+            </div>
+            <a
+              href="https://github.com/mikusnuz/plumise-agent-app/releases/latest"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary inline-flex items-center gap-2 py-2.5 px-6"
+            >
+              {t('myNode.downloadBtn')}
+            </a>
+          </div>
           <div className="flex items-center gap-3 text-xs text-label">
             <span className="badge-info">{t('myNode.gpuAuto')}</span>
-            <span className="text-hint">{t('myNode.setupTime')}</span>
+            <span className="badge-success">{t('myNode.noConfig')}</span>
+            <span className="text-hint">Windows</span>
           </div>
         </div>
       )}
 
-      {/* Binary tab */}
-      {activeTab === 'binary' && (
+      {/* pip install tab */}
+      {activeTab === 'pip' && (
         <div className="space-y-3">
-          {/* OS sub-tabs */}
-          <div className="flex gap-1.5">
-            {(['mac', 'linux', 'windows'] as const).map((os) => (
-              <button
-                key={os}
-                onClick={() => setOsTab(os)}
-                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                  osTab === os ? 'tab-active' : 'tab-inactive'
-                }`}
-              >
-                {t(`myNode.os${os.charAt(0).toUpperCase() + os.slice(1)}` as
-                  'myNode.osMac' | 'myNode.osLinux' | 'myNode.osWindows')}
-              </button>
-            ))}
-          </div>
-
-          {osTab === 'windows' ? (
-            <div className="rounded-lg bg-elevated p-6 text-center space-y-2">
-              <p className="text-label font-medium">{t('myNode.comingSoon')}</p>
-              <p className="text-sm text-hint">
-                {t('myNode.useWsl')}{' '}
-                <a
-                  href="https://learn.microsoft.com/windows/wsl/install"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-cyan-400 hover:underline"
-                >
-                  WSL Install Guide
-                </a>
-              </p>
-            </div>
-          ) : (
-            <CodeBlock code={binaryCode} highlightAddress={walletAddress} />
-          )}
-
+          <CodeBlock code={pipCode} highlightAddress={walletAddress} />
           <div className="flex items-center gap-3 text-xs text-label">
-            <span className="badge-success">{t('myNode.noDocker')}</span>
+            <span className="badge-info">Python 3.10+</span>
+            <span className="text-hint">Linux / macOS</span>
+          </div>
+        </div>
+      )}
+
+      {/* Docker tab */}
+      {activeTab === 'docker' && (
+        <div className="space-y-3">
+          <CodeBlock code={dockerCode} highlightAddress={walletAddress} />
+          <div className="flex items-center gap-3 text-xs text-label">
+            <span className="badge-info">Docker 24+</span>
+            <span className="text-hint">Linux / macOS / Windows (WSL)</span>
           </div>
         </div>
       )}
