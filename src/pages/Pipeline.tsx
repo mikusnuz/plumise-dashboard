@@ -9,7 +9,7 @@ import { useTranslation } from '../i18n'
 
 export const Pipeline = () => {
   const { t } = useTranslation()
-  const [selectedModel] = useState('mistralai/Mistral-7B-Instruct-v0.2')
+  const [selectedModel] = useState('openai/gpt-oss-20b')
   const { data: topology, isLoading } = usePipelineTopology(selectedModel)
   const { isConnected } = usePipelineStatus()
 

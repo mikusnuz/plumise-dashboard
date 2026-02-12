@@ -29,6 +29,20 @@ export const api = {
   getCurrentChallenge: () => fetchApi<Challenge | null>('/challenges/current'),
   getRewards: (address: string) => fetchApi<Rewards>(`/rewards/${address}`),
   getFormula: () => fetchApi<RewardFormula>('/formula'),
-  getPipelineTopology: (model = 'mistralai/Mistral-7B-Instruct-v0.2') =>
-    fetchApi<PipelineTopology>(`/v1/pipeline/topology?model=${encodeURIComponent(model)}`),
+  getPipelineTopology: async (model = 'openai/gpt-oss-20b'): Promise<PipelineTopology> => {
+    const raw = await fetchApi<any>(`/v1/pipeline/topology?model=${encodeURIComponent(model)}`)
+    return {
+      model: raw.model,
+      totalLayers: raw.nodes?.[0]?.totalLayers ?? 0,
+      nodes: (raw.nodes ?? []).map((n: any) => ({
+        address: n.nodeAddress ?? n.address,
+        grpcEndpoint: n.grpcEndpoint,
+        httpEndpoint: n.httpEndpoint,
+        layerStart: n.layerStart,
+        layerEnd: n.layerEnd,
+        pipelineOrder: n.pipelineOrder,
+        ready: n.ready,
+      })),
+    }
+  },
 }

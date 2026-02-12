@@ -210,12 +210,12 @@ export const MyNode = () => {
         />
         <StatCard
           title={t('myNode.tasksCompleted')}
-          value={formatNumber(rewardData?.contribution.taskCount ?? 0)}
+          value={formatNumber(rewardData?.contribution?.taskCount ?? 0)}
           icon={Activity}
         />
         <StatCard
           title={t('myNode.responseScore')}
-          value={formatNumber(rewardData?.contribution.responseScore ?? 0)}
+          value={formatNumber(rewardData?.contribution?.responseScore ?? 0)}
           icon={TrendingUp}
         />
       </div>
@@ -229,7 +229,7 @@ export const MyNode = () => {
             <p className="text-sm text-label mb-2">{t('myNode.uptime')}</p>
             <p className="text-2xl font-bold text-heading">
               {formatNumber(
-                (rewardData?.contribution.uptimeSeconds ?? 0) / 3600,
+                (rewardData?.contribution?.uptimeSeconds ?? 0) / 3600,
                 2
               )}{' '}
               {t('myNode.hours')}
@@ -238,7 +238,7 @@ export const MyNode = () => {
           <div className="p-4 rounded-lg bg-elevated">
             <p className="text-sm text-label mb-2">{t('myNode.lastUpdated')}</p>
             <p className="text-2xl font-bold text-heading">
-              {rewardData?.contribution.lastUpdated
+              {rewardData?.contribution?.lastUpdated
                 ? new Date(rewardData.contribution.lastUpdated).toLocaleString()
                 : t('myNode.never')}
             </p>
