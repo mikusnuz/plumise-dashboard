@@ -20,11 +20,15 @@ export const Sidebar = () => {
 
   return (
     <aside className="w-64 shrink-0 glass-card m-4 p-6 flex flex-col overflow-y-auto">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-          Plumise AI
-        </h1>
-        <p className="text-sm text-label mt-1">{t('sidebar.dashboard')}</p>
+      <div className="mb-8 flex items-center gap-3">
+        <img src="/logo_dashboard.png" alt="Plumise AI" className="h-10 w-10 dark:hidden" />
+        <img src="/logo_dashboard_white.png" alt="Plumise AI" className="hidden h-10 w-10 dark:block" />
+        <div>
+          <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+            Plumise AI
+          </h1>
+          <p className="text-xs text-label">{t('sidebar.dashboard')}</p>
+        </div>
       </div>
 
       <nav className="flex-1 space-y-2">
