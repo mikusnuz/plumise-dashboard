@@ -20,7 +20,7 @@ export const Overview = () => {
   useRealtimeEvents()
 
   const rewardChartData = epochsData
-    ? epochsData.slice(0, 24).map((epoch) => ({
+    ? epochsData.filter((e) => e?.number != null).slice(0, 24).map((epoch) => ({
         epoch: epoch.number,
         reward: epoch.reward,
       })).reverse()

@@ -11,7 +11,7 @@ export const Rewards = () => {
   const { data: formula } = useRewardFormula()
 
   const rewardChartData = epochsData
-    ? epochsData.map((epoch) => ({
+    ? epochsData.filter((e) => e?.number != null).map((epoch) => ({
         epoch: epoch.number,
         reward: epoch.reward,
       })).reverse()
@@ -115,7 +115,7 @@ export const Rewards = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-theme">
-              {epochsData?.slice(0, 10).map((epoch) => {
+              {epochsData?.filter((e) => e?.number != null).slice(0, 10).map((epoch) => {
                 const rewardBigInt = BigInt(epoch.reward)
                 const avgPerAgent = epoch.agentCount > 0
                   ? rewardBigInt / BigInt(epoch.agentCount)

@@ -16,6 +16,7 @@ export const useRealtimeBlocks = (maxBlocks = 5) => {
 
         unwatch = wsClient.watchBlocks({
           onBlock: (block) => {
+            if (!block || block.number == null) return
             setLatestBlock(block)
             setBlocks((prev) => {
               const newBlocks = [block, ...prev]

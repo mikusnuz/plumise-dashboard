@@ -30,17 +30,17 @@ export const RealtimeBlockFeed = () => {
             Waiting for blocks...
           </div>
         ) : (
-          blocks.map((block) => (
+          blocks.filter((b) => b?.number != null).map((block) => (
             <div
-              key={block.number?.toString()}
+              key={block.number!.toString()}
               className="flex items-center justify-between rounded-md bg-surface-0 px-3 py-2 text-xs"
             >
               <div className="flex items-center gap-3">
                 <span className="font-mono font-semibold text-text-primary">
-                  #{block.number?.toString()}
+                  #{block.number!.toString()}
                 </span>
                 <span className="text-text-tertiary">
-                  {block.transactions.length} txs
+                  {block.transactions?.length ?? 0} txs
                 </span>
               </div>
               <span className="text-text-secondary">
