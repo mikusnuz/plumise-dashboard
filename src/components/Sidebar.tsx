@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Users, Award, Zap, User, Sun, Moon, Wifi, WifiOff } from 'lucide-react'
+import { LayoutDashboard, Users, Award, Zap, User, Sun, Moon } from 'lucide-react'
 import { plumise } from '@plumise/core'
 import { useTranslation } from '../i18n'
 import { useTheme } from '../theme'
@@ -56,13 +56,13 @@ export const Sidebar = () => {
 
         <div className="p-3 rounded-lg bg-elevated border border-surface-200">
           <div className="flex items-center gap-2">
-            {isConnected ? (
-              <Wifi size={16} className="text-green-500" />
-            ) : (
-              <WifiOff size={16} className="text-gray-400" />
-            )}
+            <div
+              className={`h-2 w-2 rounded-full ${
+                isConnected ? 'bg-green-500' : 'bg-red-500'
+              }`}
+            />
             <span className="text-xs text-label">
-              {isConnected ? 'WebSocket Connected' : 'WebSocket Disconnected'}
+              {isConnected ? 'Connected' : 'Disconnected'}
             </span>
           </div>
         </div>
