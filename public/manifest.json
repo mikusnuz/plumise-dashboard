@@ -1,0 +1,21 @@
+{
+  "name": "Plumise AI Dashboard",
+  "short_name": "Plumise Dashboard",
+  "description": "Real-time monitoring dashboard for the Plumise distributed AI inference network",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo_dashboard.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
