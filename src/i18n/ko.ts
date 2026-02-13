@@ -98,7 +98,7 @@ const ko = {
   'myNode.connectSubtitle': '지갑을 연결하여 노드 상태와 보상을 확인하세요',
   'myNode.connectedSubtitle': '에이전트 상태와 보상 현황을 모니터링하세요',
   'myNode.connectWallet': '지갑 연결',
-  'myNode.connectDesc': '지갑을 연결하면 에이전트 상태, 미수령 보상을 확인하고 수령할 수 있습니다',
+  'myNode.connectDesc': '지갑을 연결하면 에이전트 상태와 보상 현황을 확인할 수 있습니다',
   'myNode.connectBtn': '지갑 연결하기',
   'myNode.disconnect': '연결 해제',
   'myNode.connectedWallet': '연결된 지갑',

@@ -98,7 +98,7 @@ const en = {
   'myNode.connectSubtitle': 'Connect your wallet to view your node status and rewards',
   'myNode.connectedSubtitle': 'Monitor your agent status and rewards',
   'myNode.connectWallet': 'Connect Your Wallet',
-  'myNode.connectDesc': 'Connect your wallet to view your agent status, pending rewards, and claim your earnings',
+  'myNode.connectDesc': 'Connect your wallet to view your agent status and pending rewards',
   'myNode.connectBtn': 'Connect Wallet',
   'myNode.disconnect': 'Disconnect',
   'myNode.connectedWallet': 'Connected Wallet',
