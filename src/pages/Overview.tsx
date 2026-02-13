@@ -12,7 +12,7 @@ import { useTranslation } from '../i18n'
 
 export const Overview = () => {
   const { t } = useTranslation()
-  const { activeAgents, totalAgents, currentEpoch, blockNumber, isLoading } =
+  const { activeAgents, totalAgents, currentEpoch, blockNumber, isLoading, isError, isStale, lastUpdated } =
     useNetworkStats()
   const { data: currentChallengeData } = useCurrentChallenge()
   const { data: epochsData } = useEpochs()
@@ -42,24 +42,36 @@ export const Overview = () => {
           icon={Users}
           loading={isLoading}
           change={t('overview.totalSuffix', { count: totalAgents })}
+          isStale={isStale}
+          isError={isError}
+          lastUpdated={lastUpdated}
         />
         <StatCard
           title={t('overview.currentEpoch')}
           value={formatNumber(currentEpoch)}
           icon={TrendingUp}
           loading={isLoading}
+          isStale={isStale}
+          isError={isError}
+          lastUpdated={lastUpdated}
         />
         <StatCard
           title={t('overview.blockHeight')}
           value={formatNumber(blockNumber)}
           icon={Zap}
           loading={isLoading}
+          isStale={isStale}
+          isError={isError}
+          lastUpdated={lastUpdated}
         />
         <StatCard
           title={t('overview.totalAgents')}
           value={formatNumber(totalAgents)}
           icon={Award}
           loading={isLoading}
+          isStale={isStale}
+          isError={isError}
+          lastUpdated={lastUpdated}
         />
       </div>
 

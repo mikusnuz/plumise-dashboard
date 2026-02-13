@@ -2,10 +2,31 @@ import { useRealtimeBlocks } from '../hooks/useRealtimeBlocks'
 import { formatDistance } from '../lib/utils'
 
 export const RealtimeBlockFeed = () => {
-  const { blocks, isConnected } = useRealtimeBlocks(5)
+  const { blocks, connectionStatus, lastBlockTime } = useRealtimeBlocks(5)
 
-  if (!isConnected && blocks.length === 0) {
-    return null
+  const getStatusColor = () => {
+    switch (connectionStatus) {
+      case 'connected':
+        return 'bg-green-500'
+      case 'connecting':
+      case 'reconnecting':
+        return 'bg-amber-500 animate-pulse'
+      case 'disconnected':
+        return 'bg-red-500'
+    }
+  }
+
+  const getStatusText = () => {
+    switch (connectionStatus) {
+      case 'connected':
+        return 'Live'
+      case 'connecting':
+        return 'Connecting...'
+      case 'reconnecting':
+        return 'Reconnecting...'
+      case 'disconnected':
+        return 'Disconnected'
+    }
   }
 
   return (
@@ -13,16 +34,24 @@ export const RealtimeBlockFeed = () => {
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-text-primary">Recent Blocks</h3>
         <div className="flex items-center gap-2">
-          <div
-            className={`h-2 w-2 rounded-full ${
-              isConnected ? 'bg-green-500' : 'bg-gray-400'
-            }`}
-          />
+          <div className={`h-2 w-2 rounded-full ${getStatusColor()}`} />
           <span className="text-xs text-text-secondary">
-            {isConnected ? 'Live' : 'Disconnected'}
+            {getStatusText()}
           </span>
         </div>
       </div>
+
+      {connectionStatus === 'disconnected' && blocks.length === 0 && (
+        <div className="mb-3 rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-400">
+          Failed to connect to WebSocket. Retrying...
+        </div>
+      )}
+
+      {lastBlockTime && connectionStatus === 'connected' && (
+        <div className="mb-3 text-xs text-text-tertiary">
+          Last update: {formatDistance(lastBlockTime.getTime())}
+        </div>
+      )}
 
       <div className="space-y-2">
         {blocks.length === 0 ? (
