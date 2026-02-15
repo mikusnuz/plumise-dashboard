@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion } from 'motion/react'
-import { Network, Cpu, Zap, Activity, ArrowRight } from 'lucide-react'
+import { Network, Cpu, Zap, Activity, ArrowRight, Monitor } from 'lucide-react'
 import StatCard from '../components/StatCard'
 import { usePipelineTopology } from '../hooks/usePipeline'
 import { usePipelineStatus } from '../hooks/usePipelineStatus'
@@ -12,6 +12,13 @@ export const Pipeline = () => {
   const [selectedModel] = useState('openai/gpt-oss-20b')
   const { data: topology, isLoading } = usePipelineTopology(selectedModel)
   const { isConnected } = usePipelineStatus()
+
+  const { pipelineNodes, standaloneNodes } = useMemo(() => {
+    if (!topology) return { pipelineNodes: [], standaloneNodes: [] }
+    const pipeline = topology.nodes.filter(n => !n.grpcEndpoint?.startsWith('standalone://'))
+    const standalone = topology.nodes.filter(n => n.grpcEndpoint?.startsWith('standalone://'))
+    return { pipelineNodes: pipeline, standaloneNodes: standalone }
+  }, [topology])
 
   const onlineNodes = topology?.nodes.filter(n => n.ready).length ?? 0
   const totalNodes = topology?.nodes.length ?? 0
@@ -71,9 +78,9 @@ export const Pipeline = () => {
               <div key={i} className="h-24 bg-elevated rounded animate-pulse" />
             ))}
           </div>
-        ) : topology && topology.nodes.length > 0 ? (
+        ) : pipelineNodes.length > 0 ? (
           <div className="space-y-4">
-            {topology.nodes
+            {pipelineNodes
               .sort((a, b) => a.pipelineOrder - b.pipelineOrder)
               .map((node, idx) => (
                 <motion.div
@@ -124,7 +131,7 @@ export const Pipeline = () => {
                             {t('pipeline.layerRange', {
                               start: node.layerStart,
                               end: node.layerEnd,
-                              total: topology.totalLayers,
+                              total: topology!.totalLayers,
                             })}
                           </p>
                         </div>
@@ -142,7 +149,7 @@ export const Pipeline = () => {
                     </div>
                   </div>
 
-                  {idx < topology.nodes.length - 1 && (
+                  {idx < pipelineNodes.length - 1 && (
                     <div className="flex justify-center py-2">
                       <ArrowRight size={20} className="text-label" />
                     </div>
@@ -150,9 +157,68 @@ export const Pipeline = () => {
                 </motion.div>
               ))}
           </div>
-        ) : (
+        ) : standaloneNodes.length === 0 ? (
           <div className="text-center py-12 text-label">
             {t('pipeline.noNodes')}
+          </div>
+        ) : null}
+
+        {/* Standalone Nodes (agent-app) */}
+        {standaloneNodes.length > 0 && (
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold text-heading mb-3">
+              {t('pipeline.standaloneTitle')}
+            </h3>
+            <p className="text-label text-sm mb-4">{t('pipeline.standaloneDesc')}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {standaloneNodes.map((node, idx) => (
+                <motion.div
+                  key={node.address}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.05 }}
+                  className={`p-5 rounded-lg border transition-all ${
+                    node.ready
+                      ? 'bg-elevated border-blue-500/30 hover:border-blue-500/50'
+                      : 'bg-elevated/50 border-red-500/30'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className={`p-2.5 rounded-lg ${
+                      node.ready
+                        ? 'bg-blue-500/20 border border-blue-500/30'
+                        : 'bg-red-500/20 border border-red-500/30'
+                    }`}>
+                      <Monitor size={20} className={node.ready ? 'text-blue-400' : 'text-red-400'} />
+                    </div>
+                    <div>
+                      <p className="font-mono text-sm text-heading">
+                        {formatAddress(node.address, 8)}
+                      </p>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${
+                          node.ready
+                            ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                            : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                        }`}>
+                          {t('pipeline.standalone')}
+                        </span>
+                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${
+                          node.ready
+                            ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                            : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                        }`}>
+                          {node.ready ? t('pipeline.online') : t('pipeline.offline')}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-label">
+                    {t('pipeline.fullModel', { total: topology!.totalLayers })}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         )}
       </div>

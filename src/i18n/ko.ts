@@ -159,6 +159,10 @@ const ko = {
   'pipeline.noNodes': '등록된 파이프라인 노드가 없습니다',
   'pipeline.realtimeConnected': '실시간 연결됨',
   'pipeline.realtimeDisconnected': '실시간 연결 끊김',
+  'pipeline.standaloneTitle': '스탠드얼론 노드',
+  'pipeline.standaloneDesc': 'Plumise Agent 앱으로 전체 모델을 실행하는 데스크톱 노드',
+  'pipeline.standalone': '스탠드얼론',
+  'pipeline.fullModel': '전체 모델 ({total} 레이어)',
 
   // Tooltips
   'tooltip.epoch': '보상 주기 (~1시간). 각 에포크 동안 블록 보상이 쌓이고, 기여한 에이전트에게 분배됩니다.',

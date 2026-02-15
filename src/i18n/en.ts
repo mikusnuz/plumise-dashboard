@@ -159,6 +159,10 @@ const en = {
   'pipeline.noNodes': 'No pipeline nodes registered',
   'pipeline.realtimeConnected': 'Real-time connected',
   'pipeline.realtimeDisconnected': 'Real-time disconnected',
+  'pipeline.standaloneTitle': 'Standalone Nodes',
+  'pipeline.standaloneDesc': 'Desktop nodes running the full model via Plumise Agent app',
+  'pipeline.standalone': 'Standalone',
+  'pipeline.fullModel': 'Full Model ({total} layers)',
 
   // Tooltips / Descriptions for technical terms
   'tooltip.epoch': 'A reward cycle (~1 hour). Block rewards accumulate during each epoch and are distributed to contributing agents.',
