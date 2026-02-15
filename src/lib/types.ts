@@ -79,3 +79,23 @@ export interface PipelineTopology {
   totalLayers: number
   nodes: PipelineNode[]
 }
+
+export interface ThroughputData {
+  epoch: number
+  totalTokens: string
+  agentCount: number
+  totalRequests: number
+  avgLatency: string
+  maxUptime: number
+  throughputTokPerSec: string
+}
+
+export interface AgentCapacity {
+  address: string
+  epoch: number
+  tokensProcessed: string
+  requestCount: number
+  uptimeSeconds: number
+  avgLatencyMs: string
+  throughputTokPerSec: string
+}

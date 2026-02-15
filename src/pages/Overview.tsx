@@ -1,12 +1,14 @@
 import { Users, Award, Zap, TrendingUp } from 'lucide-react'
 import StatCard from '../components/StatCard'
 import RewardChart from '../components/RewardChart'
+import ThroughputChart from '../components/ThroughputChart'
 import ChallengeCard from '../components/ChallengeCard'
 import { RealtimeBlockFeed } from '../components/RealtimeBlockFeed'
 import { useNetworkStats } from '../hooks/useNetworkStats'
 import { useEpochs } from '../hooks/useRewards'
 import { useCurrentChallenge } from '../hooks/useChallenges'
 import { useRealtimeEvents } from '../hooks/useRealtimeEvents'
+import { useThroughput } from '../hooks/useThroughput'
 import { formatNumber } from '../lib/formatters'
 import { useTranslation } from '../i18n'
 
@@ -16,6 +18,7 @@ export const Overview = () => {
     useNetworkStats()
   const { data: currentChallengeData } = useCurrentChallenge()
   const { data: epochsData } = useEpochs()
+  const { data: throughputData } = useThroughput()
 
   useRealtimeEvents()
 
@@ -24,6 +27,10 @@ export const Overview = () => {
         epoch: epoch.number,
         reward: epoch.reward,
       })).reverse()
+    : []
+
+  const throughputChartData = throughputData
+    ? throughputData.filter((d) => d?.epoch != null).slice().reverse()
     : []
 
   return (
@@ -83,6 +90,9 @@ export const Overview = () => {
             <div className="glass-card p-6">
               <p className="text-label text-center">{t('overview.loadingReward')}</p>
             </div>
+          )}
+          {throughputChartData.length > 0 && (
+            <ThroughputChart data={throughputChartData} />
           )}
           <RealtimeBlockFeed />
         </div>

@@ -8,6 +8,8 @@ import type {
   Rewards,
   RewardFormula,
   PipelineTopology,
+  ThroughputData,
+  AgentCapacity,
 } from './types'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:15481/api'
@@ -45,4 +47,6 @@ export const api = {
       })),
     }
   },
+  getThroughputHistory: (limit = 24) => fetchApi<ThroughputData[]>(`/v1/metrics/throughput?limit=${limit}`),
+  getAgentCapacities: () => fetchApi<AgentCapacity[]>(`/v1/metrics/capacity`),
 }

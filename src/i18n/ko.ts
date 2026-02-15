@@ -171,6 +171,14 @@ const ko = {
   'tooltip.heartbeat': '에이전트가 온라인 상태임을 알리는 주기적 신호입니다.',
   'tooltip.stake': '네트워크 참여를 위해 예치한 PLM 토큰 수량입니다.',
   'tooltip.blockHeight': 'Plumise 체인에서 생성된 현재 블록 수입니다.',
+
+  // Throughput
+  'throughput.title': '네트워크 처리량',
+  'throughput.agents': '활성 에이전트',
+  'throughput.tokPerSec': '처리 속도',
+  'throughput.avgLatency': '평균 지연',
+  'throughput.tokens': '처리된 토큰',
+  'throughput.requests': '요청 수',
 }
 
 export default ko

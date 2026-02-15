@@ -171,6 +171,14 @@ const en = {
   'tooltip.heartbeat': 'A periodic signal from an agent confirming it is online and operational.',
   'tooltip.stake': 'Amount of PLM tokens deposited as collateral to participate in the network.',
   'tooltip.blockHeight': 'The current number of blocks produced on the Plumise chain.',
+
+  // Throughput
+  'throughput.title': 'Network Throughput',
+  'throughput.agents': 'Active Agents',
+  'throughput.tokPerSec': 'Throughput',
+  'throughput.avgLatency': 'Avg Latency',
+  'throughput.tokens': 'Tokens Processed',
+  'throughput.requests': 'Requests',
 }
 
 export default en
