@@ -2,11 +2,9 @@ import { Users, Award, Zap, TrendingUp } from 'lucide-react'
 import StatCard from '../components/StatCard'
 import RewardChart from '../components/RewardChart'
 import ThroughputChart from '../components/ThroughputChart'
-import ChallengeCard from '../components/ChallengeCard'
 import { RealtimeBlockFeed } from '../components/RealtimeBlockFeed'
 import { useNetworkStats } from '../hooks/useNetworkStats'
 import { useEpochs } from '../hooks/useRewards'
-import { useCurrentChallenge } from '../hooks/useChallenges'
 import { useRealtimeEvents } from '../hooks/useRealtimeEvents'
 import { useThroughput } from '../hooks/useThroughput'
 import { formatNumber } from '../lib/formatters'
@@ -16,7 +14,6 @@ export const Overview = () => {
   const { t } = useTranslation()
   const { activeAgents, totalAgents, currentEpoch, blockNumber, isLoading, isError, isStale, lastUpdated } =
     useNetworkStats()
-  const { data: currentChallengeData } = useCurrentChallenge()
   const { data: epochsData } = useEpochs()
   const { data: throughputData } = useThroughput()
 
@@ -82,30 +79,18 @@ export const Overview = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          {rewardChartData.length > 0 ? (
-            <RewardChart data={rewardChartData} />
-          ) : (
-            <div className="glass-card p-6">
-              <p className="text-label text-center">{t('overview.loadingReward')}</p>
-            </div>
-          )}
-          {throughputChartData.length > 0 && (
-            <ThroughputChart data={throughputChartData} />
-          )}
-          <RealtimeBlockFeed />
-        </div>
-
-        <div>
-          {currentChallengeData ? (
-            <ChallengeCard challenge={currentChallengeData} />
-          ) : (
-            <div className="glass-card p-6">
-              <p className="text-label text-center">{t('overview.loadingChallenge')}</p>
-            </div>
-          )}
-        </div>
+      <div className="space-y-6">
+        {rewardChartData.length > 0 ? (
+          <RewardChart data={rewardChartData} />
+        ) : (
+          <div className="glass-card p-6">
+            <p className="text-label text-center">{t('overview.loadingReward')}</p>
+          </div>
+        )}
+        {throughputChartData.length > 0 && (
+          <ThroughputChart data={throughputChartData} />
+        )}
+        <RealtimeBlockFeed />
       </div>
     </div>
   )
