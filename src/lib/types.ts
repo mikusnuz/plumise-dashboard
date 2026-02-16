@@ -98,4 +98,8 @@ export interface AgentCapacity {
   uptimeSeconds: number
   avgLatencyMs: string
   throughputTokPerSec: string
+  benchmarkTokPerSec: number
+  device: string
+  ramMb: number
+  vramMb: number
 }

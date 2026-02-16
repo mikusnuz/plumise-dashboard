@@ -179,6 +179,26 @@ const en = {
   'throughput.avgLatency': 'Avg Latency',
   'throughput.tokens': 'Tokens Processed',
   'throughput.requests': 'Requests',
+
+  // Hashpower
+  'nav.hashpower': 'Hashpower',
+  'hashpower.title': 'Network Hashpower',
+  'hashpower.subtitle': 'Monitor computing capacity and actual throughput across the network',
+  'hashpower.networkCapacity': 'Network Capacity',
+  'hashpower.activeAgents': 'Active Agents',
+  'hashpower.networkThroughput': 'Network Throughput',
+  'hashpower.utilization': 'Utilization',
+  'hashpower.benchmarkChart': 'Agent Capacity vs Throughput',
+  'hashpower.benchmark': 'Benchmark',
+  'hashpower.actual': 'Actual',
+  'hashpower.timeline': 'Throughput Timeline',
+  'hashpower.throughput': 'Throughput',
+  'hashpower.agentDetails': 'Agent Details',
+  'hashpower.agent': 'Agent',
+  'hashpower.device': 'Device',
+  'hashpower.utilizationCol': 'Utilization',
+  'hashpower.uptime': 'Uptime',
+  'hashpower.noAgents': 'No active agents found',
 }
 
 export default en

@@ -9,6 +9,7 @@ import Rewards from './pages/Rewards'
 import Challenges from './pages/Challenges'
 import MyNode from './pages/MyNode'
 import Pipeline from './pages/Pipeline'
+import Hashpower from './pages/Hashpower'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,6 +30,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<Overview />} />
+                <Route path="hashpower" element={<Hashpower />} />
                 <Route path="agents" element={<Agents />} />
                 <Route path="pipeline" element={<Pipeline />} />
                 <Route path="rewards" element={<Rewards />} />

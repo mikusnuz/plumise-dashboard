@@ -179,6 +179,26 @@ const ko = {
   'throughput.avgLatency': '평균 지연',
   'throughput.tokens': '처리된 토큰',
   'throughput.requests': '요청 수',
+
+  // Hashpower
+  'nav.hashpower': '해시파워',
+  'hashpower.title': '네트워크 해시파워',
+  'hashpower.subtitle': '네트워크 전체의 컴퓨팅 용량과 실제 처리량을 모니터링하세요',
+  'hashpower.networkCapacity': '네트워크 용량',
+  'hashpower.activeAgents': '활성 에이전트',
+  'hashpower.networkThroughput': '네트워크 처리량',
+  'hashpower.utilization': '가동률',
+  'hashpower.benchmarkChart': '에이전트 용량 vs 처리량',
+  'hashpower.benchmark': '벤치마크',
+  'hashpower.actual': '실제',
+  'hashpower.timeline': '처리량 타임라인',
+  'hashpower.throughput': '처리량',
+  'hashpower.agentDetails': '에이전트 상세',
+  'hashpower.agent': '에이전트',
+  'hashpower.device': '디바이스',
+  'hashpower.utilizationCol': '가동률',
+  'hashpower.uptime': '가동 시간',
+  'hashpower.noAgents': '활성 에이전트가 없습니다',
 }
 
 export default ko
