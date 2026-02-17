@@ -122,7 +122,7 @@ const ko = {
   'myNode.setupTitle': '노드 운영하고, PLM 받기',
   'myNode.setupDesc': 'Plumise AI 네트워크에 컴퓨팅 파워를 제공하고 보상을 받으세요.',
   'myNode.tabDesktop': '데스크톱 앱',
-  'myNode.tabPip': 'pip install',
+  'myNode.tabPip': '\uc18c\uc2a4 \uc124\uce58',
   'myNode.desktopTitle': 'Plumise Agent',
   'myNode.desktopDesc': '원클릭 데스크톱 앱. GPU를 자동 감지하고 바로 보상을 받기 시작합니다.',
   'myNode.downloadBtn': 'Windows용 다운로드',

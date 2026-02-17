@@ -17,13 +17,13 @@ export const NodeInstallSection = ({ walletAddress }: NodeInstallSectionProps) =
 
   const pipCode = useMemo(
     () =>
-      `pip install plumise-agent\n\n# Create .env file\ncat > .env << EOF\nPLUMISE_PRIVATE_KEY=<your-private-key>\nMODEL_NAME=qwen/qwen3-32b\nDEVICE=auto\nORACLE_API_URL=https://oracle.plumise.com\nPLUMISE_RPC_URL=https://plug.plumise.com/rpc\nEOF\n\n# Start the agent\nplumise-agent start`,
+      `git clone https://github.com/mikusnuz/plumise-agent.git\ncd plumise-agent\npip install -e ".[gpu]"\n\n# Create .env file\ncat > .env << EOF\nPLUMISE_PRIVATE_KEY=<your-private-key>\nMODEL_NAME=openai/gpt-oss-20b\nDEVICE=auto\nORACLE_API_URL=https://plug.plumise.com/oracle\nPLUMISE_RPC_URL=https://node-1.plumise.com/rpc\nEOF\n\n# Start the agent\nplumise-agent start`,
     []
   )
 
   const dockerCode = useMemo(
     () =>
-      `docker run -d --name plumise-agent \\\n  -e PLUMISE_PRIVATE_KEY=<your-private-key> \\\n  -e MODEL_NAME=qwen/qwen3-32b \\\n  -e DEVICE=auto \\\n  -e ORACLE_API_URL=https://oracle.plumise.com \\\n  -e PLUMISE_RPC_URL=https://plug.plumise.com/rpc \\\n  --network host \\\n  ghcr.io/mikusnuz/plumise-agent:latest`,
+      `git clone https://github.com/mikusnuz/plumise-agent.git\ncd plumise-agent\n\n# Create .env file\ncat > .env << EOF\nPLUMISE_PRIVATE_KEY=<your-private-key>\nMODEL_NAME=openai/gpt-oss-20b\nDEVICE=auto\nORACLE_API_URL=https://plug.plumise.com/oracle\nPLUMISE_RPC_URL=https://node-1.plumise.com/rpc\nEOF\n\n# CPU mode\ndocker compose up -d\n\n# GPU mode (NVIDIA)\n# docker compose --profile gpu up -d`,
     []
   )
 
@@ -106,7 +106,7 @@ export const NodeInstallSection = ({ walletAddress }: NodeInstallSectionProps) =
         <div className={`space-y-3 ${activeTab === 'pip' ? '' : 'invisible'}`}>
           <CodeBlock code={pipCode} highlightAddress={walletAddress} title="bash" />
           <div className="flex items-center gap-3 text-xs text-label">
-            <span className="badge-info">Python 3.10+</span>
+            <span className="badge-info">Python 3.11+</span>
             <span className="text-hint">Linux / macOS</span>
           </div>
         </div>

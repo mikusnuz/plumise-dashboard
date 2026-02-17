@@ -122,7 +122,7 @@ const en = {
   'myNode.setupTitle': 'Run a Node, Earn PLM',
   'myNode.setupDesc': 'Contribute your computing power to the Plumise AI network and earn rewards.',
   'myNode.tabDesktop': 'Desktop App',
-  'myNode.tabPip': 'pip install',
+  'myNode.tabPip': 'Source Install',
   'myNode.desktopTitle': 'Plumise Agent',
   'myNode.desktopDesc': 'One-click desktop app. Auto-detects GPU and starts earning immediately.',
   'myNode.downloadBtn': 'Download for Windows',
