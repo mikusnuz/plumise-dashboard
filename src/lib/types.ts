@@ -45,12 +45,16 @@ export interface Epoch {
   distributed: boolean
 }
 
+export interface EpochContribution extends Contribution {
+  wallet: string
+}
+
 export interface EpochDetail {
   number: number
   reward: string
   agentCount: number
   distributed: boolean
-  contributions: Contribution[]
+  contributions: EpochContribution[]
 }
 
 export interface Challenge {
@@ -102,4 +106,59 @@ export interface AgentCapacity {
   device: string
   ramMb: number
   vramMb: number
+}
+
+export interface LeaderboardAgent {
+  rank: number
+  wallet: string
+  totalRewardShare: string
+  epochCount: number
+  totalTaskCount: number
+  totalTokensProcessed: string
+  totalUptimeSeconds: number
+}
+
+export interface LeaderboardData {
+  updatedAt: string
+  totalDistributed: string
+  agents: LeaderboardAgent[]
+}
+
+export interface RewardHistoryEpoch {
+  epoch: number
+  estimatedReward: string
+  totalEpochReward: string
+  agentCount: number
+  contribution: {
+    taskCount: number
+    uptimeSeconds: number
+    responseScore: number
+    processedTokens: string
+  }
+}
+
+export interface RewardHistory {
+  wallet: string
+  totalEstimated: string
+  epochs: RewardHistoryEpoch[]
+}
+
+export interface TokenomicsData {
+  currentBlock: number
+  currentEpoch: number
+  blocksPerEpoch: number
+  blockRewardPLM: string
+  halvingInterval: number
+  halvingCount: number
+  nextHalvingBlock: number
+  blocksUntilHalving: number
+  nextHalvingEstDate: string
+  genesisSupply: string
+  allocations: {
+    rewardPool: string
+    foundation: string
+    ecosystem: string
+    team: string
+    liquidity: string
+  }
 }

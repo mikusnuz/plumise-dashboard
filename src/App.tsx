@@ -9,6 +9,8 @@ import Rewards from './pages/Rewards'
 import MyNode from './pages/MyNode'
 import Pipeline from './pages/Pipeline'
 import Hashpower from './pages/Hashpower'
+import Leaderboard from './pages/Leaderboard'
+import Tokenomics from './pages/Tokenomics'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +35,8 @@ function App() {
                 <Route path="agents" element={<Agents />} />
                 <Route path="pipeline" element={<Pipeline />} />
                 <Route path="rewards" element={<Rewards />} />
+                <Route path="leaderboard" element={<Leaderboard />} />
+                <Route path="tokenomics" element={<Tokenomics />} />
                 <Route path="my-node" element={<MyNode />} />
               </Route>
             </Routes>

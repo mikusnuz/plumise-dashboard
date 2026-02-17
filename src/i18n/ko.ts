@@ -180,6 +180,62 @@ const ko = {
   'throughput.tokens': '처리된 토큰',
   'throughput.requests': '요청 수',
 
+  // Navigation (new pages)
+  'nav.leaderboard': '리더보드',
+  'nav.tokenomics': '토크노믹스',
+
+  // Leaderboard
+  'leaderboard.title': '리더보드',
+  'leaderboard.subtitle': '누적 추정 보상 기준 에이전트 순위',
+  'leaderboard.totalDistributed': '총 분배량',
+  'leaderboard.rewardedAgents': '보상 에이전트',
+  'leaderboard.topEarner': '최고 수익자',
+  'leaderboard.medianReward': '중간값 보상',
+  'leaderboard.distributionChart': '보상 분포 (상위 20)',
+  'leaderboard.estimatedReward': '추정 보상',
+  'leaderboard.rankingTable': '에이전트 순위',
+  'leaderboard.rank': '순위',
+  'leaderboard.agent': '에이전트',
+  'leaderboard.epochs': '에포크',
+  'leaderboard.avgPerEpoch': '에포크당 평균',
+  'leaderboard.tasks': '작업',
+  'leaderboard.tokens': '토큰',
+
+  // Tokenomics
+  'tokenomics.title': '토크노믹스',
+  'tokenomics.subtitle': 'PLM 토큰 공급량, 반감기 일정, 할당 현황',
+  'tokenomics.blockReward': '블록 보상',
+  'tokenomics.rewardPoolBalance': '리워드 풀 잔액',
+  'tokenomics.blocksUntilHalving': '반감기까지 블록',
+  'tokenomics.nextHalvingDate': '다음 반감기 날짜',
+  'tokenomics.supplyBreakdown': '공급량 구성',
+  'tokenomics.rewardPool': '리워드 풀',
+  'tokenomics.foundation': '재단',
+  'tokenomics.ecosystem': '생태계',
+  'tokenomics.team': '팀',
+  'tokenomics.liquidity': '유동성',
+  'tokenomics.halvingTimeline': '반감기 타임라인',
+  'tokenomics.halvingProgress': '다음 반감기 진행률',
+  'tokenomics.keyParameters': '주요 파라미터',
+  'tokenomics.blockTime': '블록 시간',
+  'tokenomics.blocksPerEpoch': '에포크당 블록',
+  'tokenomics.halvingIntervalLabel': '반감기 간격',
+  'tokenomics.genesisSupplyLabel': '제네시스 공급량',
+  'tokenomics.currentBlock': '현재 블록',
+  'tokenomics.currentEpoch': '현재 에포크',
+  'tokenomics.halvingCountLabel': '반감기 횟수',
+  'tokenomics.nextHalvingBlock': '다음 반감기 블록',
+
+  // MyNode additions
+  'myNode.totalEarned': '총 수익 (추정)',
+  'myNode.networkRank': '네트워크 순위',
+  'myNode.agents': '에이전트',
+  'myNode.rewardHistory': '보상 히스토리',
+
+  // Rewards additions
+  'rewards.contributions': '기여도',
+  'rewards.clickToExpand': '에포크 행을 클릭하면 에이전트별 기여도를 확인할 수 있습니다',
+
   // Hashpower
   'nav.hashpower': '해시파워',
   'hashpower.title': '네트워크 해시파워',

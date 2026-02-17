@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
-import { Wallet, Award, Activity, TrendingUp, Layers, CheckCircle, XCircle, RefreshCw } from 'lucide-react'
+import { Wallet, Award, Activity, TrendingUp, Layers, CheckCircle, XCircle, RefreshCw, Trophy } from 'lucide-react'
 import { motion } from 'motion/react'
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import StatCard from '../components/StatCard'
 import NodeInstallSection from '../components/NodeInstallSection'
 import { useRewards } from '../hooks/useRewards'
 import { usePipelineTopology } from '../hooks/usePipeline'
+import { useRewardHistory } from '../hooks/useRewardHistory'
+import { useLeaderboard } from '../hooks/useLeaderboard'
 import { formatAddress, formatPLM, formatNumber } from '../lib/formatters'
 import { useTranslation } from '../i18n'
 
@@ -35,7 +38,13 @@ export const MyNode = () => {
   const [walletAddress, setWalletAddress] = useState<`0x${string}` | undefined>()
   const { data: rewardData } = useRewards(walletAddress)
   const { data: topology } = usePipelineTopology()
+  const { data: rewardHistoryData } = useRewardHistory(walletAddress)
+  const { data: leaderboardData } = useLeaderboard(50)
   const eip6963Provider = useRef<any>(null)
+
+  const myRank = leaderboardData?.agents.find(
+    (a) => a.wallet.toLowerCase() === walletAddress?.toLowerCase()
+  )?.rank
 
   const myNode = topology?.nodes.find(
     (node) => node.address.toLowerCase() === walletAddress?.toLowerCase()
@@ -170,6 +179,18 @@ export const MyNode = () => {
         </div>
       </div>
 
+      {myRank && leaderboardData && (
+        <div className="glass-card p-4 flex items-center gap-3">
+          <Trophy size={24} className="text-yellow-400" />
+          <div>
+            <p className="text-sm text-label">{t('myNode.networkRank')}</p>
+            <p className="text-xl font-bold text-heading">
+              #{myRank} <span className="text-sm font-normal text-label">/ {leaderboardData.agents.length} {t('myNode.agents')}</span>
+            </p>
+          </div>
+        </div>
+      )}
+
       <NodeInstallSection walletAddress={walletAddress} />
 
       {myNode && (
@@ -233,7 +254,7 @@ export const MyNode = () => {
         </motion.div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title={t('myNode.pendingRewards')}
           value={`${formatPLM(rewardData?.pending ?? '0')} PLM`}
@@ -249,7 +270,35 @@ export const MyNode = () => {
           value={formatNumber(rewardData?.contribution?.responseScore ?? 0)}
           icon={TrendingUp}
         />
+        <StatCard
+          title={t('myNode.totalEarned')}
+          value={`${formatPLM(rewardHistoryData?.totalEstimated ?? '0')} PLM`}
+          icon={Trophy}
+        />
       </div>
+
+      {rewardHistoryData && rewardHistoryData.epochs.length > 0 && (
+        <div className="glass-card p-6">
+          <h3 className="text-lg font-semibold mb-4 text-heading">{t('myNode.rewardHistory')}</h3>
+          <ResponsiveContainer width="100%" height={250}>
+            <AreaChart data={rewardHistoryData.epochs.slice().reverse().map(e => ({
+              epoch: e.epoch,
+              reward: parseFloat((Number(BigInt(e.estimatedReward)) / 1e18).toFixed(4)),
+            }))}>
+              <defs>
+                <linearGradient id="rewardGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#06b6d4" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#06b6d4" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="epoch" tick={{ fill: 'var(--color-label)', fontSize: 12 }} />
+              <YAxis tick={{ fill: 'var(--color-label)', fontSize: 12 }} />
+              <Tooltip contentStyle={{ background: 'var(--color-elevated)', border: '1px solid var(--color-surface-200)', borderRadius: '8px', color: 'var(--color-body)' }} />
+              <Area type="monotone" dataKey="reward" stroke="#06b6d4" fill="url(#rewardGradient)" strokeWidth={2} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      )}
 
       <div className="glass-card p-6">
         <h3 className="text-lg font-semibold mb-4 text-heading">
@@ -309,9 +358,26 @@ export const MyNode = () => {
 
       <div className="glass-card p-6">
         <h3 className="text-lg font-semibold mb-4 text-heading">{t('myNode.activityLog')}</h3>
-        <div className="text-center py-8 text-label">
-          {t('myNode.noActivity')}
-        </div>
+        {rewardHistoryData && rewardHistoryData.epochs.length > 0 ? (
+          <div className="space-y-3">
+            {rewardHistoryData.epochs.slice(0, 10).map((e) => (
+              <div key={e.epoch} className="flex items-center justify-between p-3 rounded-lg bg-elevated">
+                <div>
+                  <p className="text-sm font-medium text-heading">Epoch #{e.epoch}</p>
+                  <p className="text-xs text-label">
+                    {e.contribution.taskCount} tasks · {formatNumber(e.contribution.uptimeSeconds / 3600, 1)}h uptime · {formatNumber(Number(e.contribution.processedTokens))} tokens
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-mono text-cyan-400">{formatPLM(e.estimatedReward)} PLM</p>
+                  <p className="text-xs text-label">{e.agentCount} agents</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 text-label">{t('myNode.noActivity')}</div>
+        )}
       </div>
     </div>
   )

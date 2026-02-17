@@ -10,6 +10,9 @@ import type {
   PipelineTopology,
   ThroughputData,
   AgentCapacity,
+  LeaderboardData,
+  RewardHistory,
+  TokenomicsData,
 } from './types'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:15481/api'
@@ -49,4 +52,7 @@ export const api = {
   },
   getThroughputHistory: (limit = 24) => fetchApi<ThroughputData[]>(`/v1/metrics/throughput?limit=${limit}`),
   getAgentCapacities: () => fetchApi<AgentCapacity[]>(`/v1/metrics/capacity`),
+  getLeaderboard: (limit = 50) => fetchApi<LeaderboardData>(`/v1/leaderboard?limit=${limit}`),
+  getRewardHistory: (address: string, limit = 50) => fetchApi<RewardHistory>(`/v1/rewards/history/${address}?limit=${limit}`),
+  getTokenomics: () => fetchApi<TokenomicsData>('/v1/tokenomics'),
 }

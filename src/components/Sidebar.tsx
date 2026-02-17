@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Users, Award, User, Sun, Moon, Network, Cpu } from 'lucide-react'
+import { LayoutDashboard, Users, Award, User, Sun, Moon, Network, Cpu, Trophy, Coins } from 'lucide-react'
 import { plumise } from '@plumise/core'
 import { useTranslation } from '../i18n'
 import { useTheme } from '../theme'
@@ -16,6 +16,8 @@ export const Sidebar = () => {
     { key: 'nav.agents', to: '/agents', icon: Users },
     { key: 'nav.pipeline', to: '/pipeline', icon: Network },
     { key: 'nav.rewards', to: '/rewards', icon: Award },
+    { key: 'nav.leaderboard', to: '/leaderboard', icon: Trophy },
+    { key: 'nav.tokenomics', to: '/tokenomics', icon: Coins },
     { key: 'nav.myNode', to: '/my-node', icon: User },
   ]
 

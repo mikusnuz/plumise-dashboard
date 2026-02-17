@@ -1,14 +1,49 @@
-import { Award, TrendingUp, Users } from 'lucide-react'
+import { useState } from 'react'
+import { Award, TrendingUp, Users, ChevronDown } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
 import StatCard from '../components/StatCard'
 import RewardChart from '../components/RewardChart'
-import { useEpochs, useRewardFormula } from '../hooks/useRewards'
-import { formatNumber, formatPLM } from '../lib/formatters'
+import { useEpochs, useRewardFormula, useEpoch } from '../hooks/useRewards'
+import { formatNumber, formatPLM, formatAddress } from '../lib/formatters'
 import { useTranslation } from '../i18n'
+
+const EpochContributions = ({ epochNum }: { epochNum: number }) => {
+  const { t } = useTranslation()
+  const { data: epochDetail } = useEpoch(epochNum)
+
+  if (!epochDetail?.contributions?.length) {
+    return <p className="text-label text-sm">Loading...</p>
+  }
+
+  return (
+    <table className="w-full">
+      <thead>
+        <tr>
+          <th className="px-3 py-2 text-left text-xs text-label">Agent</th>
+          <th className="px-3 py-2 text-left text-xs text-label">Tasks</th>
+          <th className="px-3 py-2 text-left text-xs text-label">Uptime</th>
+          <th className="px-3 py-2 text-left text-xs text-label">Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {epochDetail.contributions.map((c, i) => (
+          <tr key={i} className="border-t border-theme">
+            <td className="px-3 py-2 font-mono text-sm text-body">{formatAddress(c.wallet ?? '', 4)}</td>
+            <td className="px-3 py-2 text-sm text-body">{c.taskCount}</td>
+            <td className="px-3 py-2 text-sm text-body">{formatNumber(c.uptimeSeconds / 3600, 1)}h</td>
+            <td className="px-3 py-2 text-sm text-body">{c.responseScore}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
 
 export const Rewards = () => {
   const { t } = useTranslation()
   const { data: epochsData } = useEpochs()
   const { data: formula } = useRewardFormula()
+  const [expandedEpoch, setExpandedEpoch] = useState<number | null>(null)
 
   const rewardChartData = epochsData
     ? epochsData.filter((e) => e?.number != null).map((epoch) => ({
@@ -90,9 +125,12 @@ export const Rewards = () => {
       )}
 
       <div className="glass-card p-6">
-        <h3 className="text-lg font-semibold mb-4 text-heading">
-          {t('rewards.recentEpochs')}
-        </h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-heading">
+            {t('rewards.recentEpochs')}
+          </h3>
+          <p className="text-xs text-label">{t('rewards.clickToExpand')}</p>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-elevated border-b border-theme">
@@ -120,31 +158,59 @@ export const Rewards = () => {
                 const avgPerAgent = epoch.agentCount > 0
                   ? rewardBigInt / BigInt(epoch.agentCount)
                   : 0n
+                const isExpanded = expandedEpoch === epoch.number
 
                 return (
-                  <tr key={epoch.number} className="table-row">
-                    <td className="px-6 py-4 text-heading font-medium">
-                      #{formatNumber(epoch.number)}
-                    </td>
-                    <td className="px-6 py-4 text-cyan-400 font-mono">
-                      {formatPLM(epoch.reward)} PLM
-                    </td>
-                    <td className="px-6 py-4 text-body">
-                      {formatNumber(epoch.agentCount)}
-                    </td>
-                    <td className="px-6 py-4 text-body font-mono">
-                      {formatPLM(avgPerAgent)} PLM
-                    </td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={
-                          epoch.distributed ? 'badge-success' : 'badge-warning'
-                        }
-                      >
-                        {epoch.distributed ? t('rewards.distributed') : t('rewards.pending')}
-                      </span>
-                    </td>
-                  </tr>
+                  <>
+                    <tr
+                      key={epoch.number}
+                      className="table-row cursor-pointer"
+                      onClick={() => setExpandedEpoch(isExpanded ? null : epoch.number)}
+                    >
+                      <td className="px-6 py-4 text-heading font-medium">
+                        <div className="flex items-center gap-2">
+                          <ChevronDown
+                            size={14}
+                            className={`text-label transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                          />
+                          #{formatNumber(epoch.number)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-cyan-400 font-mono">
+                        {formatPLM(epoch.reward)} PLM
+                      </td>
+                      <td className="px-6 py-4 text-body">
+                        {formatNumber(epoch.agentCount)}
+                      </td>
+                      <td className="px-6 py-4 text-body font-mono">
+                        {formatPLM(avgPerAgent)} PLM
+                      </td>
+                      <td className="px-6 py-4">
+                        <span
+                          className={
+                            epoch.distributed ? 'badge-success' : 'badge-warning'
+                          }
+                        >
+                          {epoch.distributed ? t('rewards.distributed') : t('rewards.pending')}
+                        </span>
+                      </td>
+                    </tr>
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.tr
+                          key={`expanded-${epoch.number}`}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <td colSpan={5} className="px-6 py-4 bg-elevated/50">
+                            <EpochContributions epochNum={epoch.number} />
+                          </td>
+                        </motion.tr>
+                      )}
+                    </AnimatePresence>
+                  </>
                 )
               })}
             </tbody>

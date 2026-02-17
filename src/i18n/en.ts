@@ -180,6 +180,62 @@ const en = {
   'throughput.tokens': 'Tokens Processed',
   'throughput.requests': 'Requests',
 
+  // Navigation (new pages)
+  'nav.leaderboard': 'Leaderboard',
+  'nav.tokenomics': 'Tokenomics',
+
+  // Leaderboard
+  'leaderboard.title': 'Leaderboard',
+  'leaderboard.subtitle': 'Agent rankings by cumulative estimated rewards',
+  'leaderboard.totalDistributed': 'Total Distributed',
+  'leaderboard.rewardedAgents': 'Rewarded Agents',
+  'leaderboard.topEarner': 'Top Earner',
+  'leaderboard.medianReward': 'Median Reward',
+  'leaderboard.distributionChart': 'Reward Distribution (Top 20)',
+  'leaderboard.estimatedReward': 'Estimated Reward',
+  'leaderboard.rankingTable': 'Agent Rankings',
+  'leaderboard.rank': 'Rank',
+  'leaderboard.agent': 'Agent',
+  'leaderboard.epochs': 'Epochs',
+  'leaderboard.avgPerEpoch': 'Avg/Epoch',
+  'leaderboard.tasks': 'Tasks',
+  'leaderboard.tokens': 'Tokens',
+
+  // Tokenomics
+  'tokenomics.title': 'Tokenomics',
+  'tokenomics.subtitle': 'PLM token supply, halving schedule, and allocation breakdown',
+  'tokenomics.blockReward': 'Block Reward',
+  'tokenomics.rewardPoolBalance': 'Reward Pool Balance',
+  'tokenomics.blocksUntilHalving': 'Blocks Until Halving',
+  'tokenomics.nextHalvingDate': 'Next Halving Date',
+  'tokenomics.supplyBreakdown': 'Supply Breakdown',
+  'tokenomics.rewardPool': 'Reward Pool',
+  'tokenomics.foundation': 'Foundation',
+  'tokenomics.ecosystem': 'Ecosystem',
+  'tokenomics.team': 'Team',
+  'tokenomics.liquidity': 'Liquidity',
+  'tokenomics.halvingTimeline': 'Halving Timeline',
+  'tokenomics.halvingProgress': 'Progress to Next Halving',
+  'tokenomics.keyParameters': 'Key Parameters',
+  'tokenomics.blockTime': 'Block Time',
+  'tokenomics.blocksPerEpoch': 'Blocks per Epoch',
+  'tokenomics.halvingIntervalLabel': 'Halving Interval',
+  'tokenomics.genesisSupplyLabel': 'Genesis Supply',
+  'tokenomics.currentBlock': 'Current Block',
+  'tokenomics.currentEpoch': 'Current Epoch',
+  'tokenomics.halvingCountLabel': 'Halving Count',
+  'tokenomics.nextHalvingBlock': 'Next Halving Block',
+
+  // MyNode additions
+  'myNode.totalEarned': 'Total Earned (Est.)',
+  'myNode.networkRank': 'Network Rank',
+  'myNode.agents': 'agents',
+  'myNode.rewardHistory': 'Reward History',
+
+  // Rewards additions
+  'rewards.contributions': 'Contributions',
+  'rewards.clickToExpand': 'Click epoch rows to see agent contributions',
+
   // Hashpower
   'nav.hashpower': 'Hashpower',
   'hashpower.title': 'Network Hashpower',
