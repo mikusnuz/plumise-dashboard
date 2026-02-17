@@ -62,13 +62,14 @@ export const Leaderboard = () => {
       </div>
 
       {chartData.length > 0 && (
-        <div className="glass-card p-6">
+        <div className="glass-card p-6 overflow-hidden">
           <h3 className="text-lg font-semibold mb-4 text-heading">{t('leaderboard.distributionChart')}</h3>
           <ResponsiveContainer width="100%" height={Math.max(300, chartData.length * 32)}>
             <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 30 }}>
               <XAxis type="number" tick={{ fill: 'var(--chart-text)', fontSize: 12 }} />
               <YAxis type="category" dataKey="name" width={90} tick={{ fill: 'var(--chart-text)', fontSize: 12 }} />
               <Tooltip
+                cursor={{ fill: 'var(--bg-hover)' }}
                 contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', border: '1px solid var(--chart-tooltip-border)', borderRadius: '8px' }}
                 itemStyle={{ color: 'var(--text-primary)' }}
                 labelStyle={{ color: 'var(--text-secondary)' }}
