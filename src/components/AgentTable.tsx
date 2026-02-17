@@ -10,6 +10,16 @@ interface AgentTableProps {
   loading?: boolean
 }
 
+const HEARTBEAT_TIMEOUT_S = 10 * 60 // 10 minutes
+
+function getEffectiveStatus(agent: Agent): number {
+  if (agent.status === 2) return 2 // slashed
+  const now = Math.floor(Date.now() / 1000)
+  const elapsed = now - Number(agent.lastHeartbeat)
+  if (elapsed > HEARTBEAT_TIMEOUT_S) return 0 // inactive by timeout
+  return agent.status
+}
+
 export const AgentTable = ({ agents, loading }: AgentTableProps) => {
   const { t } = useTranslation()
   const [expandedAgent, setExpandedAgent] = useState<string | null>(null)
@@ -84,8 +94,8 @@ export const AgentTable = ({ agents, loading }: AgentTableProps) => {
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <span className={statusColors[agent.status]}>
-                    {statusLabels[agent.status]}
+                  <span className={statusColors[getEffectiveStatus(agent)]}>
+                    {statusLabels[getEffectiveStatus(agent)]}
                   </span>
                 </td>
                 <td className="px-6 py-4 text-sm text-body">

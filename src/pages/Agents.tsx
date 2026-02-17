@@ -1,21 +1,34 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Users, Activity } from 'lucide-react'
 import StatCard from '../components/StatCard'
 import AgentTable from '../components/AgentTable'
-import { useAgents, useActiveAgents } from '../hooks/useAgents'
-import { useNetworkStats } from '../hooks/useNetworkStats'
+import { useAgents } from '../hooks/useAgents'
 import { formatNumber } from '../lib/formatters'
 import { useTranslation } from '../i18n'
+
+const HEARTBEAT_TIMEOUT_S = 10 * 60
+
+function isAgentActive(agent: { status: number; lastHeartbeat: string | number }): boolean {
+  if (agent.status !== 1) return false
+  const now = Math.floor(Date.now() / 1000)
+  return now - Number(agent.lastHeartbeat) <= HEARTBEAT_TIMEOUT_S
+}
 
 export const Agents = () => {
   const { t } = useTranslation()
   const [showActiveOnly, setShowActiveOnly] = useState(false)
-  const { data: allAgents, isLoading: allLoading } = useAgents()
-  const { data: activeAgents, isLoading: activeLoading } = useActiveAgents()
-  const { totalAgents, activeAgents: activeCount } = useNetworkStats()
+  const { data: allAgents, isLoading } = useAgents()
 
-  const agents = showActiveOnly ? activeAgents : allAgents
-  const isLoading = showActiveOnly ? activeLoading : allLoading
+  const activeCount = useMemo(
+    () => (allAgents ?? []).filter(isAgentActive).length,
+    [allAgents],
+  )
+  const totalAgents = allAgents?.length ?? 0
+
+  const agents = useMemo(
+    () => showActiveOnly ? (allAgents ?? []).filter(isAgentActive) : allAgents,
+    [allAgents, showActiveOnly],
+  )
 
   const activePercentage =
     totalAgents > 0
