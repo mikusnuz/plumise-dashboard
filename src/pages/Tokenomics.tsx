@@ -84,7 +84,9 @@ export const Tokenomics = () => {
                   ))}
                 </Pie>
                 <Tooltip
-                  contentStyle={{ background: 'var(--color-elevated)', border: '1px solid var(--color-surface-200)', borderRadius: '8px', color: 'var(--color-body)' }}
+                  contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', border: '1px solid var(--chart-tooltip-border)', borderRadius: '8px' }}
+                  itemStyle={{ color: 'var(--text-primary)' }}
+                  labelStyle={{ color: 'var(--text-secondary)' }}
                   formatter={(value: number) => [`${value.toLocaleString()} PLM`, '']}
                 />
               </PieChart>

@@ -54,8 +54,9 @@ export const RewardChart = ({ data }: RewardChartProps) => {
               backgroundColor: 'var(--chart-tooltip-bg)',
               border: '1px solid var(--chart-tooltip-border)',
               borderRadius: '8px',
-              color: 'var(--text-primary)',
             }}
+            itemStyle={{ color: 'var(--text-primary)' }}
+            labelStyle={{ color: 'var(--text-secondary)' }}
             formatter={(value) => (value ? [`${value} PLM`, t('rewards.reward')] : ['0 PLM', t('rewards.reward')])}
             labelFormatter={(label) => `${t('rewards.epoch')} ${label}`}
           />

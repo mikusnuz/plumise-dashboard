@@ -293,7 +293,11 @@ export const MyNode = () => {
               </defs>
               <XAxis dataKey="epoch" tick={{ fill: 'var(--color-label)', fontSize: 12 }} />
               <YAxis tick={{ fill: 'var(--color-label)', fontSize: 12 }} />
-              <Tooltip contentStyle={{ background: 'var(--color-elevated)', border: '1px solid var(--color-surface-200)', borderRadius: '8px', color: 'var(--color-body)' }} />
+              <Tooltip
+                contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', border: '1px solid var(--chart-tooltip-border)', borderRadius: '8px' }}
+                itemStyle={{ color: 'var(--text-primary)' }}
+                labelStyle={{ color: 'var(--text-secondary)' }}
+              />
               <Area type="monotone" dataKey="reward" stroke="#06b6d4" fill="url(#rewardGradient)" strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>

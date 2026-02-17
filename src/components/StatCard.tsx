@@ -73,7 +73,7 @@ export const StatCard = ({
         <div className="h-8 w-32 bg-elevated rounded animate-pulse" />
       ) : (
         <>
-          <p className="text-3xl font-bold text-heading">{value}</p>
+          <p className="text-2xl font-bold text-heading truncate" title={String(value)}>{value}</p>
           {lastUpdated && (isStale || isError) && (
             <p className="text-xs text-label/60 mt-1">
               Last: {formatTime(lastUpdated)}

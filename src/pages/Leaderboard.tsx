@@ -69,7 +69,9 @@ export const Leaderboard = () => {
               <XAxis type="number" tick={{ fill: 'var(--color-label)', fontSize: 12 }} />
               <YAxis type="category" dataKey="name" width={90} tick={{ fill: 'var(--color-label)', fontSize: 12 }} />
               <Tooltip
-                contentStyle={{ background: 'var(--color-elevated)', border: '1px solid var(--color-surface-200)', borderRadius: '8px', color: 'var(--color-body)' }}
+                contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', border: '1px solid var(--chart-tooltip-border)', borderRadius: '8px' }}
+                itemStyle={{ color: 'var(--text-primary)' }}
+                labelStyle={{ color: 'var(--text-secondary)' }}
                 formatter={(value: number) => [`${value.toLocaleString()} PLM`, t('leaderboard.estimatedReward')]}
               />
               <Bar dataKey="value" radius={[0, 4, 4, 0]}>
