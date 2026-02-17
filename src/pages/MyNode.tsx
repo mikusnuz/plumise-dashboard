@@ -291,8 +291,8 @@ export const MyNode = () => {
                   <stop offset="100%" stopColor="#06b6d4" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="epoch" tick={{ fill: 'var(--color-label)', fontSize: 12 }} />
-              <YAxis tick={{ fill: 'var(--color-label)', fontSize: 12 }} />
+              <XAxis dataKey="epoch" tick={{ fill: 'var(--chart-text)', fontSize: 12 }} />
+              <YAxis tick={{ fill: 'var(--chart-text)', fontSize: 12 }} />
               <Tooltip
                 contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', border: '1px solid var(--chart-tooltip-border)', borderRadius: '8px' }}
                 itemStyle={{ color: 'var(--text-primary)' }}

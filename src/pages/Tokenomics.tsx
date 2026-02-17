@@ -76,8 +76,12 @@ export const Tokenomics = () => {
                   outerRadius={130}
                   paddingAngle={3}
                   dataKey="value"
-                  label={({ name, percent }) => `${name} ${((percent as number) * 100).toFixed(1)}%`}
-                  labelLine={{ stroke: 'var(--color-label)' }}
+                  label={({ name, percent, x, y, textAnchor }) => (
+                    <text x={x} y={y} textAnchor={textAnchor} fill="var(--chart-text)" fontSize={12}>
+                      {`${name} ${((percent as number) * 100).toFixed(1)}%`}
+                    </text>
+                  )}
+                  labelLine={{ stroke: 'var(--chart-text)' }}
                 >
                   {pieData.map((entry, i) => (
                     <Cell key={i} fill={entry.fill} />
