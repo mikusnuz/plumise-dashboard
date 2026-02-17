@@ -12,23 +12,27 @@ import { formatAddress, formatPLM, formatNumber } from '../lib/formatters'
 import { useTranslation } from '../i18n'
 
 /**
- * Detect PlumWallet provider with priority:
- * 1. window.plumise.ethereum (branded namespace, always PlumWallet)
- * 2. window.ethereum.providers[] with isPlumWallet flag
- * 3. window.ethereum.isPlumWallet direct check
- * 4. window.ethereum fallback
+ * Detect Pexus provider with priority:
+ * 1. window.pexus.ethereum (branded namespace)
+ * 2. window.plumise.ethereum (legacy branded namespace)
+ * 3. window.ethereum.providers[] with isPexus/isPlumWallet flag
+ * 4. window.ethereum.isPexus/isPlumWallet direct check
+ * 5. window.ethereum fallback
  */
 function getProvider(): any {
+  const pexus = (window as any).pexus?.ethereum
+  if (pexus) return pexus
+
   const plumise = (window as any).plumise?.ethereum
   if (plumise) return plumise
 
   const providers = (window as any).ethereum?.providers
   if (Array.isArray(providers)) {
-    const plumProvider = providers.find((p: any) => p.isPlumWallet === true)
+    const plumProvider = providers.find((p: any) => p.isPexus === true || p.isPlumWallet === true)
     if (plumProvider) return plumProvider
   }
 
-  if ((window as any).ethereum?.isPlumWallet) return (window as any).ethereum
+  if ((window as any).ethereum?.isPexus || (window as any).ethereum?.isPlumWallet) return (window as any).ethereum
 
   return (window as any).ethereum ?? null
 }
@@ -50,11 +54,16 @@ export const MyNode = () => {
     (node) => node.address.toLowerCase() === walletAddress?.toLowerCase()
   )
 
-  // Listen for EIP-6963 wallet announcements (PlumWallet)
+  // Listen for EIP-6963 wallet announcements (Pexus + legacy)
   useEffect(() => {
     const handler = (event: any) => {
       const detail = event.detail
-      if (detail?.info?.rdns === 'com.plumbug.plumwallet' || detail?.provider?.isPlumWallet) {
+      if (
+        detail?.info?.rdns === 'app.pexus.wallet' ||
+        detail?.info?.rdns === 'com.plumbug.plumwallet' ||
+        detail?.provider?.isPexus ||
+        detail?.provider?.isPlumWallet
+      ) {
         eip6963Provider.current = detail.provider
       }
     }
@@ -367,9 +376,9 @@ export const MyNode = () => {
             {rewardHistoryData.epochs.slice(0, 10).map((e) => (
               <div key={e.epoch} className="flex items-center justify-between p-3 rounded-lg bg-elevated">
                 <div>
-                  <p className="text-sm font-medium text-heading">Epoch #{e.epoch}</p>
+                  <p className="text-sm font-medium text-heading">Epoch #{formatNumber(e.epoch)}</p>
                   <p className="text-xs text-label">
-                    {e.contribution.taskCount} tasks · {formatNumber(e.contribution.uptimeSeconds / 3600, 1)}h uptime · {formatNumber(Number(e.contribution.processedTokens))} tokens
+                    {formatNumber(e.contribution.taskCount)} tasks · {formatNumber(e.contribution.uptimeSeconds / 3600, 1)}h uptime · {formatNumber(Number(e.contribution.processedTokens))} tokens
                   </p>
                 </div>
                 <div className="text-right">

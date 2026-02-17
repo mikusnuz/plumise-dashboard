@@ -29,9 +29,9 @@ const EpochContributions = ({ epochNum }: { epochNum: number }) => {
         {epochDetail.contributions.map((c, i) => (
           <tr key={i} className="border-t border-theme">
             <td className="px-3 py-2 font-mono text-sm text-body">{formatAddress(c.wallet ?? '', 4)}</td>
-            <td className="px-3 py-2 text-sm text-body">{c.taskCount}</td>
+            <td className="px-3 py-2 text-sm text-body">{formatNumber(c.taskCount)}</td>
             <td className="px-3 py-2 text-sm text-body">{formatNumber(c.uptimeSeconds / 3600, 1)}h</td>
-            <td className="px-3 py-2 text-sm text-body">{c.responseScore}</td>
+            <td className="px-3 py-2 text-sm text-body">{formatNumber(c.responseScore)}</td>
           </tr>
         ))}
       </tbody>

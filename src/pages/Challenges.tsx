@@ -78,7 +78,7 @@ export const Challenges = () => {
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-bold text-heading">
-                    {challenge.difficulty}
+                    {formatNumber(challenge.difficulty)}
                   </p>
                   <p className="text-xs text-hint">{t('challenges.difficulty')}</p>
                 </div>
@@ -128,7 +128,7 @@ export const Challenges = () => {
                       #{challenge.id}
                     </td>
                     <td className="px-6 py-4 text-cyan-400 font-mono">
-                      {challenge.difficulty}
+                      {formatNumber(challenge.difficulty)}
                     </td>
                     <td className="px-6 py-4">
                       <span

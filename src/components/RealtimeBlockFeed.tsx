@@ -1,5 +1,6 @@
 import { useRealtimeBlocks } from '../hooks/useRealtimeBlocks'
 import { formatDistance } from '../lib/utils'
+import { formatNumber } from '../lib/formatters'
 
 export const RealtimeBlockFeed = () => {
   const { blocks, connectionStatus, lastBlockTime } = useRealtimeBlocks(5)
@@ -66,7 +67,7 @@ export const RealtimeBlockFeed = () => {
             >
               <div className="flex items-center gap-3">
                 <span className="font-mono font-semibold text-text-primary">
-                  #{block.number!.toString()}
+                  #{formatNumber(Number(block.number!))}
                 </span>
                 <span className="text-text-tertiary">
                   {block.transactions?.length ?? 0} txs

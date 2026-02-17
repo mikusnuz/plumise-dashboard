@@ -4,6 +4,7 @@ import AgentCapacityChart from '../components/AgentCapacityChart'
 import HashpowerTimeline from '../components/HashpowerTimeline'
 import HashpowerTable from '../components/HashpowerTable'
 import { useHashpower } from '../hooks/useHashpower'
+import { formatNumber } from '../lib/formatters'
 import { useTranslation } from '../i18n'
 
 export const Hashpower = () => {
@@ -30,7 +31,7 @@ export const Hashpower = () => {
         />
         <StatCard
           title={t('hashpower.activeAgents')}
-          value={String(summary.activeAgents)}
+          value={formatNumber(summary.activeAgents)}
           icon={Users}
           loading={isLoading}
         />

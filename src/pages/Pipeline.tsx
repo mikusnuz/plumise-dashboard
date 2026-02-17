@@ -4,7 +4,7 @@ import { Network, Cpu, Zap, Activity, ArrowRight, Monitor } from 'lucide-react'
 import StatCard from '../components/StatCard'
 import { usePipelineTopology } from '../hooks/usePipeline'
 import { usePipelineStatus } from '../hooks/usePipelineStatus'
-import { formatAddress } from '../lib/formatters'
+import { formatAddress, formatNumber } from '../lib/formatters'
 import { useTranslation } from '../i18n'
 
 export const Pipeline = () => {
@@ -52,12 +52,12 @@ export const Pipeline = () => {
         />
         <StatCard
           title={t('pipeline.totalLayers')}
-          value={topology?.totalLayers ?? 0}
+          value={formatNumber(topology?.totalLayers ?? 0)}
           icon={Zap}
         />
         <StatCard
           title={t('pipeline.onlineNodes')}
-          value={onlineNodes}
+          value={formatNumber(onlineNodes)}
           icon={Activity}
           change={`${totalNodes} ${t('pipeline.total')}`}
         />
