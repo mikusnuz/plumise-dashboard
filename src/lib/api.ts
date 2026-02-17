@@ -31,7 +31,7 @@ export const api = {
   getCurrentChallenge: () => fetchApi<Challenge | null>('/challenges/current'),
   getRewards: (address: string) => fetchApi<Rewards>(`/rewards/${address}`),
   getFormula: () => fetchApi<RewardFormula>('/formula'),
-  getPipelineTopology: async (model = 'openai/gpt-oss-20b'): Promise<PipelineTopology> => {
+  getPipelineTopology: async (model = 'qwen/qwen3-32b'): Promise<PipelineTopology> => {
     const raw = await fetchApi<any>(`/v1/pipeline/topology?model=${encodeURIComponent(model)}`)
     return {
       model: raw.model,

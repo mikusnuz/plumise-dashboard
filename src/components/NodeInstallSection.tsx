@@ -17,13 +17,13 @@ export const NodeInstallSection = ({ walletAddress }: NodeInstallSectionProps) =
 
   const pipCode = useMemo(
     () =>
-      `pip install plumise-agent\n\n# Create .env file\ncat > .env << EOF\nPLUMISE_PRIVATE_KEY=<your-private-key>\nMODEL_NAME=openai/gpt-oss-20b\nDEVICE=auto\nORACLE_API_URL=https://oracle.plumise.com\nPLUMISE_RPC_URL=https://plug.plumise.com/rpc\nEOF\n\n# Start the agent\nplumise-agent start`,
+      `pip install plumise-agent\n\n# Create .env file\ncat > .env << EOF\nPLUMISE_PRIVATE_KEY=<your-private-key>\nMODEL_NAME=qwen/qwen3-32b\nDEVICE=auto\nORACLE_API_URL=https://oracle.plumise.com\nPLUMISE_RPC_URL=https://plug.plumise.com/rpc\nEOF\n\n# Start the agent\nplumise-agent start`,
     []
   )
 
   const dockerCode = useMemo(
     () =>
-      `docker run -d --name plumise-agent \\\n  -e PLUMISE_PRIVATE_KEY=<your-private-key> \\\n  -e MODEL_NAME=openai/gpt-oss-20b \\\n  -e DEVICE=auto \\\n  -e ORACLE_API_URL=https://oracle.plumise.com \\\n  -e PLUMISE_RPC_URL=https://plug.plumise.com/rpc \\\n  --network host \\\n  ghcr.io/mikusnuz/plumise-agent:latest`,
+      `docker run -d --name plumise-agent \\\n  -e PLUMISE_PRIVATE_KEY=<your-private-key> \\\n  -e MODEL_NAME=qwen/qwen3-32b \\\n  -e DEVICE=auto \\\n  -e ORACLE_API_URL=https://oracle.plumise.com \\\n  -e PLUMISE_RPC_URL=https://plug.plumise.com/rpc \\\n  --network host \\\n  ghcr.io/mikusnuz/plumise-agent:latest`,
     []
   )
 
