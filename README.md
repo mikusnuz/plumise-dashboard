@@ -1,5 +1,7 @@
 # Plumise AI Dashboard
 
+![version](https://img.shields.io/badge/version-1.0.0-blue)
+
 Real-time dashboard for the Plumise AI chain network.
 
 ## Features
